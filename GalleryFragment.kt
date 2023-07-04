@@ -17,24 +17,9 @@ import com.example.mizanalnasr.ui.slideshow.SlideshowFragment
 import kotlinx.android.synthetic.main.fragment_gallery.view.*
 
 class GalleryFragment : Fragment() {
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
 
-//    mCurrentUserId,
-//    otheruserid,
-//    currentUser.name,
-//    userName,
-//    private lateinit var mCurrentChatChannelId: String
-//    private var mCurrentUserId = FirebaseAuth.getInstance().currentUser!!.uid
-//    private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance()}
-//    private val chatChannelsCollectionRef = firestoreInstance.collection("chatChannels")
-//
-//    private lateinit var  otheruserid :String
-//    private lateinit var currentUser: User
-//    private lateinit var userName:String
-//    private lateinit var nEwChatCannelId : String
-    var fabVisible = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,30 +29,16 @@ class GalleryFragment : Fragment() {
         val root: View = binding.root
 
     val fragmentadapter = FragmentAdapter(fragmentManager!!)
+        
     fragmentadapter.addFragment(HomeFragment(),"صيانة الهيئة 1")
     fragmentadapter.addFragment(SlideshowFragment(),"صيانة الهيئة 2")
         fragmentadapter.addFragment(M5r6ahFragment(),"مخرطة")
-//    fabVisible = false
+
     val fab = activity?.findViewById<FloatingActionButton>(R.id.fab)
-//        val fab1 = activity?.findViewById<FloatingActionButton>(R.id.fab1)
-//        val fab2 = activity?.findViewById<FloatingActionButton>(R.id.fab2)
     fab!!.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
     fab.show()
 
         setHasOptionsMenu(true)
-
-//    if (!fabVisible) {
-//        fab?.show()
-//       fab1!!.show()
-//        fab2!!.show()
-////        fab?.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
-//        fabVisible = true
-//    }else {
-//        fab1?.hide()
-//        fab2?.hide()
-//        fab?.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
-//        fabVisible = false
-//    }
 
     root.viewpager.adapter= fragmentadapter
     root.tablayout.setupWithViewPager(root.viewpager)
