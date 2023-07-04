@@ -128,6 +128,12 @@ class MainActivity : AppCompatActivity() {
         toolbar.setTitleTextAppearance(this, R.style.boldText)
         fabVisible = false
 
+        var chtest3 = findViewById<CheckBox>(R.id.ch_3_1)
+        var texttest3 = findViewById<TextView>(R.id.p_p_3_1)
+
+        var chtest1 = findViewById<CheckBox>(R.id.ch1)
+        var texttest1 = findViewById<TextView>(R.id.editTextNumber1)
+
          customDialogCAM = Dialog(this)
         customDialogCAM.setContentView(R.layout.camera_dailog)
         customDialogCAM.setCancelable(false)
@@ -767,13 +773,11 @@ class MainActivity : AppCompatActivity() {
                 var total = ""
                 total += total1
 
-                val chtest1 = findViewById<CheckBox>(R.id.ch1)
-                val texttest1 = findViewById<TextView>(R.id.editTextNumber1)
-                chtest1.setOnCheckedChangeListener { buttonView, isChecked ->
+                val ch1 = findViewById<CheckBox>(R.id.ch1)
+                ch1.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-
-                        checkname1 += chtest1.text
-                        editname1 += texttest1.text
+                        checkname1 += ch1.text
+                        editname1 += editTextNumber1.text
                     }}
 
 //                if (ch1 != null && ch1.isChecked) {
@@ -986,12 +990,11 @@ class MainActivity : AppCompatActivity() {
                     editname2_22 += p_p_2_22.text
                 }
 
-                val chtest3 = findViewById<CheckBox>(R.id.ch_3_1)
-                val texttest3 = findViewById<TextView>(R.id.p_p_3_1)
-                chtest3.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (isChecked) {
-                        checkname3 += chtest3.text
-                        editname3 += texttest3.text
+
+                ch_3_1.setOnCheckedChangeListener { buttonView, isChecked ->
+                    if (ch_3_1 != null && ch_3_1.isChecked) {
+                        checkname3 += ch_3_1.text
+                        editname3 += p_p_3_1.text
                     }}
 //                if (ch_3_1 != null && ch_3_1.isChecked) {
 //                    checkname3_1 += ch_3_1.text
