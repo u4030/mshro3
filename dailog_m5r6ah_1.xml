@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dail_m5_total"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="إجمالي"
+            android:gravity="center"
+            android:text="2"/>
+
+        <EditText
+            android:id="@+id/dail_m5_pric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="ادخل السعر"
+            android:gravity="center"
+            android:selectAllOnFocus="true"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/dail_m5_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="ادحل العدد"
+            android:gravity="center"
+            android:selectAllOnFocus="true"
+            android:maxLines="1"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sav_m5r6ah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="حفظ" />
+
+</android.support.v7.widget.LinearLayoutCompat>
