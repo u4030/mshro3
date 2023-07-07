@@ -11,6 +11,8 @@ import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.view.*
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.Toast
 import com.example.mizanalnasr.R
 import com.example.mizanalnasr.databinding.FragmentHomeBinding
@@ -25,7 +27,7 @@ import kotlinx.android.synthetic.main.r2syet_2ks_dailog.*
 
 class HomeFragment : Fragment() {
     private lateinit var viewModel: FirstViewModel
-
+    private lateinit var homeModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -67,10 +69,15 @@ class HomeFragment : Fragment() {
 
         val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setTitleTextAppearance(this.context, R.style.boldText)
+
         viewModel = activity?.run {
             ViewModelProviders.of(this).get(FirstViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
+        homeModel = activity?.run {
+            ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+        
         root.ch1.setOnCheckedChangeListener { _, isChecked ->
             if (ch1.isChecked) {
                 val customDialogFB = Dialog(activity!!)
@@ -136,9 +143,9 @@ class HomeFragment : Fragment() {
 //                            ch1.isChecked = false
                         } else {
                             editTextNumber1.text = customDialogFB.s3er_yadwee_fa7.text.toString()
-                           viewModel.totalAmount += editTextNumber1.text.toString().toInt()
+                            viewModel.totalAmount += editTextNumber1.text.toString().toInt()
 
-                            toolbar?.title = "المجموع " +  viewModel.totalAmount.toString()
+                            toolbar?.title =   viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -149,13 +156,17 @@ class HomeFragment : Fragment() {
                     customDialogFB.dismiss()
                 }
                 customDialogFB.show()
+                homeModel.checkname1 += ch1.text.toString().trim()
+                homeModel.editname1 += editTextNumber1.text.toString().trim()
             }
             else {
                 if (editTextNumber1.text.toString().isNotEmpty()){
                     viewModel.totalAmount -= editTextNumber1.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     editTextNumber1.text = ""}
                 ch1.text = "ميزان"
+                homeModel.checkname1 = ""
+                homeModel.editname1 = ""
             }
         }
 
@@ -174,15 +185,19 @@ class HomeFragment : Fragment() {
                     } else {
                         pricd2.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += pricd2.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname2 += ch2.text.toString().trim()
+                homeModel.editname2 += pricd2.text.toString().trim()
             } else {
                 viewModel.totalAmount -= pricd2.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 pricd2.text = ""
+                homeModel.checkname2 = ""
+                homeModel.editname2 =  ""
             }
         }
 
@@ -509,7 +524,7 @@ class HomeFragment : Fragment() {
                         }else{
                             pricd3.text=customDialogFB.s3er_r2s_acx.text.toString()
                             viewModel.totalAmount += pricd3.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -523,12 +538,16 @@ class HomeFragment : Fragment() {
                 }
 
                 customDialogFB.show()
+                homeModel.checkname3 += ch3.text.toString().trim()
+                homeModel.editname3 += pricd3.text.toString().trim()
             } else {
                 if (pricd3.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= pricd3.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch3.text = "راسية اكس"
                     pricd3.text = ""
+                    homeModel.checkname3 =  ""
+                    homeModel.editname3 =  ""
                 }else{ch3.text = "راسية اكس"}
             }
         }
@@ -597,7 +616,7 @@ class HomeFragment : Fragment() {
                         }else{
                             pricd4.text=customDialogFB.s3er_yadwee_break.text.toString()
                             viewModel.totalAmount += pricd4.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -611,12 +630,16 @@ class HomeFragment : Fragment() {
                     customDialogFB.dismiss()
                 }
                 customDialogFB.show()
+                homeModel.checkname4 += ch4.text.toString().trim()
+                homeModel.editname4 += pricd4.text.toString().trim()
             } else {
                 if (pricd4.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= pricd4.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch4.text = "بريك"
                     pricd4.text = ""
+                    homeModel.checkname4 =  ""
+                    homeModel.editname4 =  ""
                 }else{ch4.text = "بريك"}
             }
         }
@@ -634,8 +657,6 @@ class HomeFragment : Fragment() {
 
                 customDialogFB.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-//                val dialog = Dialog(this)
-//                dialog.setContentView(R.layout.custom_dialog)
                 customDialogFB.card_r2s_2ks.setOnTouchListener { _, event ->
                     var x = 0f
                     var y = 0f
@@ -1089,11 +1110,10 @@ class HomeFragment : Fragment() {
                     } else {
                         if (customDialogFB.s3er_r2s_acx.text.toString().trim().isEmpty()) {
                             toast_notempty.show()
-//                            ch5.isChecked = false
                         } else {
                             pricd5.text = customDialogFB.s3er_r2s_acx.text.toString()
                             viewModel.totalAmount += pricd5.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -1107,12 +1127,16 @@ class HomeFragment : Fragment() {
                 }
 
                 customDialogFB.show()
+                homeModel.checkname5 += ch5.text.toString().trim()
+                homeModel.editname5 += pricd5.text.toString().trim()
             } else {
                 if (pricd5.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= pricd5.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch5.text = "كوشوكة اكس"
                     pricd5.setText("")
+                    homeModel.checkname5 =  ""
+                    homeModel.editname5 =  ""
                 } else {
                     ch5.text = "كوشوكة اكس"
                 }
@@ -1183,7 +1207,7 @@ class HomeFragment : Fragment() {
                         } else {
                             pricd6.text = customDialogFB.s3er_yadwee.text.toString()
                             viewModel.totalAmount += pricd6.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -1194,12 +1218,17 @@ class HomeFragment : Fragment() {
                     customDialogFB.dismiss()
                 }
                 customDialogFB.show()
+                homeModel.checkname6 += ch6.text.toString().trim()
+                homeModel.editname6 += pricd6.text.toString().trim()
             }
             else {
                 if (pricd6.text.toString().isNotEmpty()){
                     viewModel.totalAmount -= pricd6.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
-                    pricd6.text = ""}
+                    toolbar?.title =  viewModel.totalAmount.toString()
+                    pricd6.text = ""
+                    homeModel.checkname6 =  ""
+                    homeModel.editname6 =  ""
+                }
                 ch6.text = "اكس امامي"
             }
         }
@@ -1302,7 +1331,7 @@ class HomeFragment : Fragment() {
                         } else {
                             pricd7.text = customDialogFB.s3er_yadwee.text.toString()
                             viewModel.totalAmount += pricd7.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -1313,12 +1342,17 @@ class HomeFragment : Fragment() {
                     customDialogFB.dismiss()
                 }
                 customDialogFB.show()
+                homeModel.checkname7 += ch7.text.toString().trim()
+                homeModel.editname7 += pricd7.text.toString().trim()
             }
             else {
                 if (pricd7.text.toString().isNotEmpty()){
                     viewModel.totalAmount -= pricd7.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
-                    pricd7.text = ""}
+                    toolbar?.title =  viewModel.totalAmount.toString()
+                    pricd7.text = ""
+                    homeModel.checkname7 =  ""
+                    homeModel.editname7 =  ""
+                }
                 ch7.text = "كوشوكة منفاخ"
             }
         }
@@ -1792,11 +1826,10 @@ class HomeFragment : Fragment() {
                     } else {
                         if (customDialogFB.s3er_r2s_acx.text.toString().trim().isEmpty()) {
                             toast_notempty.show()
-//                            ch8.isChecked = false
                         } else {
                             pricd8.text = customDialogFB.s3er_r2s_acx.text.toString()
                             viewModel.totalAmount += pricd8.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -1810,12 +1843,16 @@ class HomeFragment : Fragment() {
                 }
 
                 customDialogFB.show()
+                homeModel.checkname8 += ch8.text.toString().trim()
+                homeModel.editname8 += pricd8.text.toString().trim()
             } else {
                 if (pricd8.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= pricd8.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch8.text = "كوشوكة عمود شيال"
                     pricd8.setText("")
+                    homeModel.checkname8 =  ""
+                    homeModel.editname8 =  ""
                 } else {
                     ch8.text = "كوشوكة عمود شيال"
                 }
@@ -2288,11 +2325,10 @@ class HomeFragment : Fragment() {
                     } else {
                         if (customDialogFB.s3er_r2s_acx.text.toString().trim().isEmpty()) {
                             toast_notempty.show()
-//                            ch9.isChecked = false
                         } else {
                             pricd9.text = customDialogFB.s3er_r2s_acx.text.toString()
                             viewModel.totalAmount += pricd9.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -2306,12 +2342,16 @@ class HomeFragment : Fragment() {
                 }
 
                 customDialogFB.show()
+                homeModel.checkname9 += ch9.text.toString().trim()
+                homeModel.editname9 += pricd9.text.toString().trim()
             } else {
                 if (pricd9.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= pricd9.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch9.text = "جوزة"
                     pricd9.setText("")
+                    homeModel.checkname9 =  ""
+                    homeModel.editname9 =  ""
                 } else {
                     ch9.text = "جوزة"
                 }
@@ -2790,7 +2830,7 @@ class HomeFragment : Fragment() {
                         } else {
                             editTextNumber10.text = customDialogFB.s3er_r2s_acx.text.toString()
                             viewModel.totalAmount += editTextNumber10.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -2804,12 +2844,16 @@ class HomeFragment : Fragment() {
                 }
 
                 customDialogFB.show()
+                homeModel.checkname10 += ch10.text.toString().trim()
+                homeModel.editname10 += editTextNumber10.text.toString().trim()
             } else {
                 if (editTextNumber10.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= editTextNumber10.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch10.text = "بيضة"
                     editTextNumber10.setText("")
+                    homeModel.checkname10 =  ""
+                    homeModel.editname10 =  ""
                 } else {
                     ch10.text = "بيضة"
                 }
@@ -2887,7 +2931,7 @@ class HomeFragment : Fragment() {
                         } else {
                             editTextNumber11.text = customDialogFB.s3er_yadwee.text.toString()
                             viewModel.totalAmount += editTextNumber11.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -2898,12 +2942,17 @@ class HomeFragment : Fragment() {
                     customDialogFB.dismiss()
                 }
                 customDialogFB.show()
+                homeModel.checkname11 += ch11.text.toString().trim()
+                homeModel.editname11 += editTextNumber11.text.toString().trim()
             }
             else {
                 if (editTextNumber11.text.toString().isNotEmpty()){
                     viewModel.totalAmount -= editTextNumber11.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
-                    editTextNumber11.text = ""}
+                    toolbar?.title =  viewModel.totalAmount.toString()
+                    editTextNumber11.text = ""
+                    homeModel.checkname11 =  ""
+                    homeModel.editname11 =  ""
+                }
                 ch11.text = "شمزة اكس"
             }
         }
@@ -3374,11 +3423,10 @@ class HomeFragment : Fragment() {
                     } else {
                         if (customDialogFB.s3er_r2s_acx.text.toString().trim().isEmpty()) {
                             toast_notempty.show()
-//                            ch12.isChecked = false
                         } else {
                             editTextNumber12.text = customDialogFB.s3er_r2s_acx.text.toString()
                             viewModel.totalAmount += editTextNumber12.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -3392,12 +3440,16 @@ class HomeFragment : Fragment() {
                 }
 
                 customDialogFB.show()
+                homeModel.checkname12 += ch12.text.toString().trim()
+                homeModel.editname12 += editTextNumber12.text.toString().trim()
             } else {
                 if (editTextNumber12.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= editTextNumber12.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch12.text = "عمود توازن جوزة"
                     editTextNumber12.setText("")
+                    homeModel.checkname12 =  ""
+                    homeModel.editname12 =  ""
                 } else {
                     ch12.text = "عمود توازن جوزة"
                 }
@@ -3421,15 +3473,19 @@ class HomeFragment : Fragment() {
                     } else {
                         editTextNumber13.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += editTextNumber13.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname13 += ch13.text.toString().trim()
+                homeModel.editname13 += editTextNumber13.text.toString().trim()
             } else {
                 viewModel.totalAmount -= editTextNumber13.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 editTextNumber13.text = ""
+                homeModel.checkname13 =  ""
+                homeModel.editname13 =  ""
             }
         }
 
@@ -3903,7 +3959,7 @@ class HomeFragment : Fragment() {
                         } else {
                             editTextNumber14.text = customDialogFB.s3er_r2s_acx.text.toString()
                             viewModel.totalAmount += editTextNumber14.text.toString().toInt()
-                            toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                            toolbar?.title =  viewModel.totalAmount.toString()
                             customDialogFB.dismiss()
                         }
                     }
@@ -3917,12 +3973,16 @@ class HomeFragment : Fragment() {
                 }
 
                 customDialogFB.show()
+                homeModel.checkname14 += ch14.text.toString().trim()
+                homeModel.editname14 += editTextNumber14.text.toString().trim()
             } else {
                 if (editTextNumber14.text.toString().isNotEmpty()) {
                     viewModel.totalAmount -= editTextNumber14.text.toString().toInt()
-                    toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                    toolbar?.title =  viewModel.totalAmount.toString()
                     ch14.text = "هب"
                     editTextNumber14.setText("")
+                    homeModel.checkname14 =  ""
+                    homeModel.editname14 =  ""
                 } else {
                     ch14.text = "هب"
                 }
@@ -3946,15 +4006,19 @@ class HomeFragment : Fragment() {
                     } else {
                         editTextNumber15.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += editTextNumber15.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname15 += ch15.text.toString().trim()
+                homeModel.editname15 += editTextNumber15.text.toString().trim()
             } else {
                 viewModel.totalAmount -= editTextNumber15.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 editTextNumber15.text = ""
+                homeModel.checkname15 =  ""
+                homeModel.editname15 =  ""
             }
         }
 
@@ -3975,15 +4039,19 @@ class HomeFragment : Fragment() {
                     } else {
                         editTextNumber16.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += editTextNumber16.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname16 += ch16.text.toString().trim()
+                homeModel.editname16 += editTextNumber16.text.toString().trim()
             } else {
                 viewModel.totalAmount -= editTextNumber16.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 editTextNumber16.text = ""
+                homeModel.checkname16 =  ""
+                homeModel.editname16 =  ""
             }
         }
 
@@ -4002,15 +4070,19 @@ class HomeFragment : Fragment() {
                     } else {
                         editTextNumber17.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += editTextNumber17.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname17 += ch17.text.toString().trim()
+                homeModel.editname17 += editTextNumber17.text.toString().trim()
             } else {
                 viewModel.totalAmount -= editTextNumber17.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 editTextNumber17.text = ""
+                homeModel.checkname17 =  ""
+                homeModel.editname17 =  ""
             }
         }
 
@@ -4031,15 +4103,19 @@ class HomeFragment : Fragment() {
                     } else {
                         editTextNumber18.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += editTextNumber18.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname18 += ch18.text.toString().trim()
+                homeModel.editname18 += editTextNumber18.text.toString().trim()
             } else {
                 viewModel.totalAmount -= editTextNumber18.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 editTextNumber18.text = ""
+                homeModel.checkname18 =  ""
+                homeModel.editname18 =  ""
             }
         }
 
@@ -4060,15 +4136,19 @@ class HomeFragment : Fragment() {
                     } else {
                         editTextNumber19.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += editTextNumber19.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname19 += ch19.text.toString().trim()
+                homeModel.editname19 += editTextNumber19.text.toString().trim()
             } else {
                 viewModel.totalAmount -= editTextNumber19.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 editTextNumber19.text = ""
+                homeModel.checkname19 =  ""
+                homeModel.editname19 =  ""
             }
         }
 
@@ -4087,15 +4167,20 @@ class HomeFragment : Fragment() {
                     } else {
                         editTextNumber20.text = customDialogFB.s3er_yadwee_fa7.text.toString()
                         viewModel.totalAmount += editTextNumber20.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
+                homeModel.checkname20 += ch20.text.toString().trim()
+                homeModel.editname20 += editTextNumber20.text.toString().trim()
+
             } else {
                 viewModel.totalAmount -= editTextNumber20.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 editTextNumber20.text = ""
+                homeModel.checkname20 =  ""
+                homeModel.editname20 =  ""
             }
         }
         return root
