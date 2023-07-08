@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.mizanalnasr.R
 import com.example.mizanalnasr.databinding.FragmentHomeBinding
@@ -77,7 +78,28 @@ class HomeFragment : Fragment() {
         homeModel = activity?.run {
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
-        
+
+//        val checkBoxes = arrayOfNulls<CheckBox>(20)
+//        val editText = activity?.findViewById<TextView>(R.id.txt_tol_bar)
+//        for (i in 1..20) {
+//            checkBoxes[i - 1] = activity?.findViewById(R.id.ch1 + i - 1)
+//            checkBoxes[i - 1]!!.setOnCheckedChangeListener { _, isChecked ->
+//                if (isChecked) {
+//                    editText!!.visibility = View.VISIBLE
+//                }
+//            }
+//        }
+                val checkBoxes = arrayOfNulls<CheckBox>(20)
+        val editText = activity!!.findViewById<TextView>(R.id.txt_tol_bar)
+        for (i in 1..20) {
+            checkBoxes[i - 1] = activity!!.findViewById(R.id.ch1 + i - 1)
+            checkBoxes[i - 1]!!.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    editText.visibility = View.VISIBLE
+                }
+            }
+        }
+
         root.ch1.setOnCheckedChangeListener { _, isChecked ->
             if (ch1.isChecked) {
                 val customDialogFB = Dialog(activity!!)
