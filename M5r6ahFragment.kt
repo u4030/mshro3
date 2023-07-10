@@ -2,6 +2,8 @@ package com.example.mizanalnasr.ui.m5r6ah
 
 import android.app.Dialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -27,6 +29,8 @@ class M5r6ahFragment : Fragment() {
     private var _binding: FragmentM5r6ahBinding? = null
 
     private val binding get() = _binding!!
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +62,8 @@ class M5r6ahFragment : Fragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT)
 
+        sharedPreferences = requireActivity().getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+
         root.ch_3_1.setOnCheckedChangeListener { _, isChecked ->
             if (ch_3_1.isChecked) {
                 customDialogFB.dail_m5_pric.setText("3")
@@ -70,14 +76,14 @@ class M5r6ahFragment : Fragment() {
                             (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
                         p_p_3_1.text = customDialogFB.dail_m5_total.text.toString()
                         viewModel.totalAmount += p_p_3_1.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
             } else {
                 viewModel.totalAmount -= p_p_3_1.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 p_p_3_1.text = ""
             }
         }
@@ -94,14 +100,14 @@ class M5r6ahFragment : Fragment() {
                             (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
                         p_p_3_2.text = customDialogFB.dail_m5_total.text.toString()
                         viewModel.totalAmount += p_p_3_2.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
             } else {
                 viewModel.totalAmount -= p_p_3_2.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 p_p_3_2.text = ""
             }
         }
@@ -115,17 +121,17 @@ class M5r6ahFragment : Fragment() {
                         toast_notempty.show()
                     } else {
                         customDialogFB.dail_m5_total.text =
-                        (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
+                            (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
                         p_p_3_3.text = customDialogFB.dail_m5_total.text.toString()
                         viewModel.totalAmount += p_p_3_3.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
             } else {
                 viewModel.totalAmount -= p_p_3_3.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 p_p_3_3.text = ""
             }
         }
@@ -139,17 +145,17 @@ class M5r6ahFragment : Fragment() {
                         toast_notempty.show()
                     } else {
                         customDialogFB.dail_m5_total.text =
-                        (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
+                            (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
                         p_p_3_4.text = customDialogFB.dail_m5_total.text.toString()
                         viewModel.totalAmount += p_p_3_4.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
             } else {
                 viewModel.totalAmount -= p_p_3_4.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 p_p_3_4.text = ""
             }
         }
@@ -163,10 +169,10 @@ class M5r6ahFragment : Fragment() {
                         toast_notempty.show()
                     } else {
                         customDialogFB.dail_m5_total.text =
-                        (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
+                            (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
                         p_p_3_5.text = customDialogFB.dail_m5_total.text.toString()
                         viewModel.totalAmount += p_p_3_5.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
 
                     }
@@ -174,7 +180,7 @@ class M5r6ahFragment : Fragment() {
                 customDialogFB.show()
             } else {
                 viewModel.totalAmount -= p_p_3_5.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 p_p_3_5.text = ""
             }
         }
@@ -188,21 +194,40 @@ class M5r6ahFragment : Fragment() {
                         toast_notempty.show()
                     } else {
                         customDialogFB.dail_m5_total.text =
-                        (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
+                            (customDialogFB.dail_m5_num.text.toString().toInt() * customDialogFB.dail_m5_pric.text.toString().toInt()).toString()
                         p_p_3_6.text = customDialogFB.dail_m5_total.text.toString()
                         viewModel.totalAmount += p_p_3_6.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                        toolbar?.title =  viewModel.totalAmount.toString()
                         customDialogFB.dismiss()
                     }
                 }
                 customDialogFB.show()
             } else {
                 viewModel.totalAmount -= p_p_3_6.text.toString().toInt()
-                toolbar?.title = "المجموع " + viewModel.totalAmount.toString()
+                toolbar?.title =  viewModel.totalAmount.toString()
                 p_p_3_6.text = ""
             }
         }
 
+        loadCheckBoxes()
+
         return root
-}
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveCheckBoxes()
+    }
+
+    private fun saveCheckBoxes() {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("CHECKBOX1", ch_3_1.isChecked)
+        editor.putBoolean("CHECKBOX2", ch_3_2.isChecked)
+        editor.apply()
+    }
+
+    private fun loadCheckBoxes() {
+        ch_3_1.isChecked = sharedPreferences.getBoolean("CHECKBOX1", false)
+        ch_3_6.isChecked = sharedPreferences.getBoolean("CHECKBOX2", false)
+    }
 }
