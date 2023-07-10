@@ -21,10 +21,10 @@ var fragmentList : ArrayList<Fragment> = ArrayList()
         return fragmentTitel[position]
     }
     fun addFragment (fragment: Fragment,title: String){
-fragmentList.add(fragment)
+        fragmentList.add(fragment)
         fragmentTitel.add(title)
     }
     override fun getItemPosition(`object`: Any): Int {
-        return POSITION_NONE
+        return POSITION_UNCHANGED
     }
 }
