@@ -1,5 +1,10 @@
+ override fun onPause() {
+        super.onPause()
+        saveCheckBoxes()
+    }
 
-private fun saveCheckBoxes() {
+
+    private fun saveCheckBoxes() {
         homeModel.ch1 = ch1.isChecked
         homeModel.ch2 = ch2.isChecked
         homeModel.ch3 = ch3.isChecked
@@ -42,25 +47,55 @@ private fun saveCheckBoxes() {
         homeModel.editTextNumber19 = editTextNumber19.text.toString()
         homeModel.editTextNumber20 = editTextNumber20.text.toString()
 
-        homeModel2.check1 = ch1.text.toString()
-        homeModel2.check2 = ch2.text.toString()
-        homeModel2.check3 = ch3.text.toString()
-        homeModel2.check4 = ch4.text.toString()
-        homeModel2.check5 = ch5.text.toString()
-        homeModel2.check6 = ch6.text.toString()
-        homeModel2.check7 = ch7.text.toString()
-        homeModel2.check8 = ch8.text.toString()
-        homeModel2.check9 = ch9.text.toString()
-        homeModel2.check10 = ch10.text.toString()
-        homeModel2.check11 = ch11.text.toString()
-        homeModel2.check12 = ch12.text.toString()
-        homeModel2.check13 = ch13.text.toString()
-        homeModel2.check14 = ch14.text.toString()
-        homeModel2.check15 = ch15.text.toString()
-        homeModel2.check16 = ch16.text.toString()
-        homeModel2.check17 = ch17.text.toString()
-        homeModel2.check18 = ch18.text.toString()
-        homeModel2.check19 = ch19.text.toString()
-        homeModel2.check20 = ch20.text.toString()
 
+    }
+
+    private fun loadCheckBoxes() {
+        ch1.isChecked = homeModel.ch1
+        ch2.isChecked = homeModel.ch2
+        ch3.isChecked = homeModel.ch3
+        ch4.isChecked = homeModel.ch4
+        ch5.isChecked = homeModel.ch5
+        ch6.isChecked = homeModel.ch6
+        ch7.isChecked = homeModel.ch7
+        ch8.isChecked = homeModel.ch8
+        ch9.isChecked = homeModel.ch9
+        ch10.isChecked = homeModel.ch10
+        ch11.isChecked = homeModel.ch11
+        ch12.isChecked = homeModel.ch12
+        ch13.isChecked = homeModel.ch13
+        ch14.isChecked = homeModel.ch14
+        ch15.isChecked = homeModel.ch15
+        ch16.isChecked = homeModel.ch16
+        ch17.isChecked = homeModel.ch17
+        ch18.isChecked = homeModel.ch18
+        ch19.isChecked = homeModel.ch19
+        ch20.isChecked = homeModel.ch20
+
+        editTextNumber1.text = homeModel.editTextNumber1
+        editTextNumber2.text = homeModel.editTextNumber2
+        editTextNumber3.text = homeModel.editTextNumber3
+        editTextNumber4.text = homeModel.editTextNumber4
+        editTextNumber5.text = homeModel.editTextNumber5
+        editTextNumber6.text = homeModel.editTextNumber6
+        editTextNumber7.text = homeModel.editTextNumber7
+        editTextNumber8.text = homeModel.editTextNumber8
+        editTextNumber9.text = homeModel.editTextNumber9
+        editTextNumber10.text = homeModel.editTextNumber10
+        editTextNumber11.text = homeModel.editTextNumber11
+        editTextNumber12.text = homeModel.editTextNumber12
+        editTextNumber13.text = homeModel.editTextNumber13
+        editTextNumber14.text = homeModel.editTextNumber14
+        editTextNumber15.text = homeModel.editTextNumber15
+        editTextNumber16.text = homeModel.editTextNumber16
+        editTextNumber17.text = homeModel.editTextNumber17
+        editTextNumber18.text = homeModel.editTextNumber18
+        editTextNumber19.text = homeModel.editTextNumber19
+        editTextNumber20.text = homeModel.editTextNumber20
+
+        customDialogMZ.dismiss()
+        customDialogF79.dismiss()
+        customDialogR2SX.dismiss()
+        customDialogBRK.dismiss()
+        customDialogFR.dismiss()
     }
