@@ -3,8 +3,11 @@ package com.example.mizanalnasr.main
 import android.app.Activity
 import android.app.Dialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,10 +16,11 @@ import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
 import android.view.*
-import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +30,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.mizanalnasr.R
 import com.example.mizanalnasr.databinding.ActivityMainBinding
 import com.example.mizanalnasr.ui.first.FirstViewModel
+import com.example.mizanalnasr.ui.home.HomeViewModel
 import com.example.neprotest.model.CheckData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
     companion object {
         private val REQUST_CODE = 2
     }
@@ -69,17 +75,21 @@ class MainActivity : AppCompatActivity() {
         get() = storageInstance.reference.child(FirebaseAuth.getInstance().currentUser?.uid.toString())
 
     private lateinit var customDialogCAM: Dialog
+
     private lateinit var viewModel: FirstViewModel
+    private lateinit var homeModel: HomeViewModel
 
     var ent2ojoryadwyeh: Int = 0
 
     var addojoryadwyeh=""
     var addojor5ra6ah=""
-    var addtotalcame=""
+    var addtotalcame :Int=0
 
     var fabVisible = false
 
     private val chatChannelsCollectionRef = firestoreInstance.collection("chatChannels")
+
+    private lateinit var customDialogADDM : Dialog
 
     var editD1 = ""
     var editD2 = ""
@@ -114,10 +124,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -125,16 +135,24 @@ class MainActivity : AppCompatActivity() {
             ViewModelProviders.of(this).get(FirstViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
+        homeModel = run {
+            ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
         toolbar.setTitleTextAppearance(this, R.style.boldText)
+
         fabVisible = false
 
-        var chtest3 = findViewById<CheckBox>(R.id.ch_3_1)
-        var texttest3 = findViewById<TextView>(R.id.p_p_3_1)
+        val spannableString = SpannableString("القيمة المدخلة اكبر من قيمة الذمم")
+        spannableString.setSpan(
+            ForegroundColorSpan(Color.GREEN), 0, spannableString.length, 0
+        )
+        spannableString.setSpan(
+            AbsoluteSizeSpan(60), 0, spannableString.length, 0
+        )
+         val toast = Toast.makeText(this, spannableString, Toast.LENGTH_SHORT)
 
-        var chtest1 = findViewById<CheckBox>(R.id.ch1)
-        var texttest1 = findViewById<TextView>(R.id.editTextNumber1)
-
-         customDialogCAM = Dialog(this)
+        customDialogCAM = Dialog(this)
         customDialogCAM.setContentView(R.layout.camera_dailog)
         customDialogCAM.setCancelable(false)
         customDialogCAM.window?.setLayout(
@@ -189,37 +207,47 @@ class MainActivity : AppCompatActivity() {
                             before: Int,
                             count: Int
                         ) {
-                            if (customDialogCAM.ojor_5ra6ah.text.toString()
-                                    .isEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
-                                    .isNotEmpty()
+
+                            if (customDialogCAM.ojor_5ra6ah.text.toString().isEmpty()
+                                && customDialogCAM.ojor_yadwyeh.text.toString().isNotEmpty()
                             ) {
                                 customDialogCAM.majmo3_2jra2.text =
                                     customDialogCAM.ojor_yadwyeh.text.toString()
+                                addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
+                                addtotalcame += viewModel.totalAmount
+                                toolbar?.title = addtotalcame.toString()
                             }
-                            if (customDialogCAM.ojor_5ra6ah.text.toString()
-                                    .isNotEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
-                                    .isEmpty()
+                            if (customDialogCAM.ojor_5ra6ah.text.toString().isNotEmpty()
+                                && customDialogCAM.ojor_yadwyeh.text.toString().isEmpty()
                             ) {
                                 customDialogCAM.majmo3_2jra2.text =
                                     customDialogCAM.ojor_5ra6ah.text.toString()
+                                addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
+                                addtotalcame += viewModel.totalAmount
+                                toolbar?.title = addtotalcame.toString()
                             }
 
-                            if (customDialogCAM.ojor_5ra6ah.text.toString()
-                                    .isNotEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
-                                    .isNotEmpty()
+                            if (customDialogCAM.ojor_5ra6ah.text.toString().isNotEmpty()
+                                && customDialogCAM.ojor_yadwyeh.text.toString().isNotEmpty()
                             ) {
-                                ent2ojoryadwyeh = 0
-                                ent2ojoryadwyeh += customDialogCAM.ojor_yadwyeh.text.toString()
-                                    .toInt()
-                                ent2ojoryadwyeh += customDialogCAM.ojor_5ra6ah.text.toString()
-                                    .toInt()
-                                customDialogCAM.majmo3_2jra2.text = ent2ojoryadwyeh.toString()
+//                                ent2ojoryadwyeh = 0
+//                                ent2ojoryadwyeh += customDialogCAM.ojor_yadwyeh.text.toString()
+//                                    .toInt()
+//                                ent2ojoryadwyeh += customDialogCAM.ojor_5ra6ah.text.toString()
+//                                    .toInt()
+                                customDialogCAM.majmo3_2jra2.text = (customDialogCAM.ojor_yadwyeh.text.toString().toInt()
+                                        + customDialogCAM.ojor_5ra6ah.text.toString().toInt()) .toString()
+                                addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
+                                addtotalcame += viewModel.totalAmount
+                                toolbar?.title = addtotalcame.toString()
                             }
                             if (customDialogCAM.ojor_5ra6ah.text.toString()
                                     .isEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
                                     .isEmpty()
                             ) {
                                 customDialogCAM.majmo3_2jra2.text = ""
+
+                                toolbar?.title = viewModel.totalAmount.toString()
                             }
                         }
 
@@ -248,12 +276,16 @@ class MainActivity : AppCompatActivity() {
                                     .isNotEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
                                     .isNotEmpty()
                             ) {
-                                ent2ojoryadwyeh = 0
-                                ent2ojoryadwyeh += customDialogCAM.ojor_yadwyeh.text.toString()
-                                    .toInt()
-                                ent2ojoryadwyeh += customDialogCAM.ojor_5ra6ah.text.toString()
-                                    .toInt()
-                                customDialogCAM.majmo3_2jra2.text = ent2ojoryadwyeh.toString()
+//                                ent2ojoryadwyeh = 0
+//                                ent2ojoryadwyeh += customDialogCAM.ojor_yadwyeh.text.toString()
+//                                    .toInt()
+//                                ent2ojoryadwyeh += customDialogCAM.ojor_5ra6ah.text.toString()
+//                                    .toInt()
+                                customDialogCAM.majmo3_2jra2.text = (customDialogCAM.ojor_yadwyeh.text.toString().toInt()
+                                        + customDialogCAM.ojor_5ra6ah.text.toString().toInt()) .toString()
+                                addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
+                                addtotalcame += viewModel.totalAmount
+                                toolbar?.title = addtotalcame.toString()
                             }
                             if (customDialogCAM.ojor_5ra6ah.text.toString()
                                     .isNotEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
@@ -261,6 +293,9 @@ class MainActivity : AppCompatActivity() {
                             ) {
                                 customDialogCAM.majmo3_2jra2.text =
                                     customDialogCAM.ojor_5ra6ah.text.toString()
+                                addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
+                                addtotalcame += viewModel.totalAmount
+                                toolbar?.title = addtotalcame.toString()
                             }
                             if (customDialogCAM.ojor_5ra6ah.text.toString()
                                     .isEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
@@ -268,12 +303,16 @@ class MainActivity : AppCompatActivity() {
                             ) {
                                 customDialogCAM.majmo3_2jra2.text =
                                     customDialogCAM.ojor_yadwyeh.text.toString()
+                                addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
+                                addtotalcame += viewModel.totalAmount
+                                toolbar?.title = addtotalcame.toString()
                             }
                             if (customDialogCAM.ojor_5ra6ah.text.toString()
                                     .isEmpty() && customDialogCAM.ojor_yadwyeh.text.toString()
                                     .isEmpty()
                             ) {
                                 customDialogCAM.majmo3_2jra2.text = ""
+                                toolbar?.title = viewModel.totalAmount.toString()
                             }
                         }
 
@@ -292,8 +331,18 @@ class MainActivity : AppCompatActivity() {
             customDialogCAM.ojor_5ra6ah.setText("")
             customDialogCAM.cam_img.setImageResource(R.mipmap.logo_foreground)
             binding.appBarMain.fab.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
+//            viewModel.totalAmount = 0
+//            toolbar?.title = "المجموع 0 "
             customDialogCAM.dismiss()
         }
+
+        customDialogADDM = Dialog(this)
+        customDialogADDM.setContentView(R.layout.add_dailog)
+        customDialogADDM.setCancelable(false)
+        customDialogADDM.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
 
         binding.appBarMain.fab2.setOnClickListener {
             if (!fabVisible) {
@@ -306,23 +355,15 @@ class MainActivity : AppCompatActivity() {
                 binding.appBarMain.fab.setImageDrawable(resources.getDrawable(R.drawable.ic_menu_camera))
                 fabVisible = false
 
-                val customDialogFB = Dialog(this)
-                customDialogFB.setContentView(R.layout.add_dailog)
-                customDialogFB.setCancelable(false)
-                customDialogFB.window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-
-                customDialogFB.pricd1.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd1.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd2.isEnabled=customDialogFB.procd1.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd1.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd2.isEnabled=customDialogFB.procd1.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd1.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd2.isEnabled=customDialogADDM.procd1.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd1.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd2.isEnabled=customDialogADDM.procd1.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd1.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
@@ -330,105 +371,105 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 })
-                customDialogFB.pricd2.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd2.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd3.isEnabled=customDialogFB.procd2.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd2.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd3.isEnabled=customDialogFB.procd2.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd2.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd3.isEnabled=customDialogADDM.procd2.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd2.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd3.isEnabled=customDialogADDM.procd2.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd2.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
                     }
 
                 })
-                customDialogFB.pricd3.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd3.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd4.isEnabled=customDialogFB.procd3.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd3.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd4.isEnabled=customDialogFB.procd3.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd3.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd4.isEnabled=customDialogADDM.procd3.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd3.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd4.isEnabled=customDialogADDM.procd3.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd3.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
                     }
 
                 })
-                customDialogFB.pricd4.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd4.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd5.isEnabled=customDialogFB.procd4.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd4.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd5.isEnabled=customDialogFB.procd4.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd4.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd5.isEnabled=customDialogADDM.procd4.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd4.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd5.isEnabled=customDialogADDM.procd4.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd4.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
                     }
 
                 })
-                customDialogFB.pricd5.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd5.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd6.isEnabled=customDialogFB.procd5.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd5.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd6.isEnabled=customDialogFB.procd5.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd5.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd6.isEnabled=customDialogADDM.procd5.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd5.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd6.isEnabled=customDialogADDM.procd5.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd5.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
                     }
 
                 })
-                customDialogFB.pricd6.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd6.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd7.isEnabled=customDialogFB.procd6.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd6.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd7.isEnabled=customDialogFB.procd6.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd6.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd7.isEnabled=customDialogADDM.procd6.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd6.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd7.isEnabled=customDialogADDM.procd6.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd6.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
                     }
 
                 })
-                customDialogFB.pricd7.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd7.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd8.isEnabled=customDialogFB.procd7.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd7.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd8.isEnabled=customDialogFB.procd7.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd7.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd8.isEnabled=customDialogADDM.procd7.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd7.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd8.isEnabled=customDialogADDM.procd7.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd7.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
                     }
 
                 })
-                customDialogFB.pricd8.addTextChangedListener(object :TextWatcher{
+                customDialogADDM.pricd8.addTextChangedListener(object :TextWatcher{
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                        customDialogFB.procd9.isEnabled=customDialogFB.procd8.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd8.text.toString().trim().isNotEmpty()
-                        customDialogFB.pricd9.isEnabled=customDialogFB.procd8.toString().trim().isNotEmpty()
-                                && customDialogFB.pricd8.text.toString().trim().isNotEmpty()
+                        customDialogADDM.procd9.isEnabled=customDialogADDM.procd8.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd8.text.toString().trim().isNotEmpty()
+                        customDialogADDM.pricd9.isEnabled=customDialogADDM.procd8.toString().trim().isNotEmpty()
+                                && customDialogADDM.pricd8.text.toString().trim().isNotEmpty()
                     }
 
                     override fun afterTextChanged(p0: Editable?) {
@@ -436,70 +477,69 @@ class MainActivity : AppCompatActivity() {
 
                 })
 
-                customDialogFB.clos_add_dialog.setOnClickListener {
+                customDialogADDM.clos_add_dialog.setOnClickListener {
                     binding.appBarMain.fab.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
-                    customDialogFB.dismiss()
+                    customDialogADDM.dismiss()
                 }
-                customDialogFB.add_d.setOnClickListener {
+                customDialogADDM.add_d.setOnClickListener {
 
-                    editD1 += customDialogFB.tproced1.text.toString()
-                    editD2 += customDialogFB.tproced2.text.toString()
-                    editD3 += customDialogFB.tproced3.text.toString()
-                    editD4 += customDialogFB.tproced4.text.toString()
-                    editD5 += customDialogFB.tproced5.text.toString()
-                    editD6 += customDialogFB.tproced6.text.toString()
-                    editD7 += customDialogFB.tproced7.text.toString()
-                    editD8 += customDialogFB.tproced8.text.toString()
-                    editD9 += customDialogFB.tproced9.text.toString()
+                    editD1 = customDialogADDM.tproced1.text.toString()
+                    editD2 = customDialogADDM.tproced2.text.toString()
+                    editD3 = customDialogADDM.tproced3.text.toString()
+                    editD4 = customDialogADDM.tproced4.text.toString()
+                    editD5 = customDialogADDM.tproced5.text.toString()
+                    editD6 = customDialogADDM.tproced6.text.toString()
+                    editD7 = customDialogADDM.tproced7.text.toString()
+                    editD8 = customDialogADDM.tproced8.text.toString()
+                    editD9 = customDialogADDM.tproced9.text.toString()
 
-                    pricD1 += customDialogFB.pricd1.text.toString()
+                    pricD1 = customDialogADDM.pricd1.text.toString()
                     if (pricD1.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd1.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD2 += customDialogFB.pricd2.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd1.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    pricD2 = customDialogADDM.pricd2.text.toString()
                     if (pricD2.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd2.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD3 += customDialogFB.pricd3.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd2.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    pricD3 = customDialogADDM.pricd3.text.toString()
                     if (pricD3.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd3.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD4 += customDialogFB.pricd4.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd3.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    pricD4 = customDialogADDM.pricd4.text.toString()
                     if (pricD4.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd4.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD5 += customDialogFB.pricd5.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd4.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    pricD5 = customDialogADDM.pricd5.text.toString()
                     if (pricD5.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd5.text.toString().toInt()
-                        toolbar.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD6 += customDialogFB.pricd6.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd5.text.toString().toInt()
+                        toolbar.title = viewModel.totalAmount.toString()}
+                    pricD6 = customDialogADDM.pricd6.text.toString()
                     if (pricD6.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd6.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD7 += customDialogFB.pricd7.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd6.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    pricD7 = customDialogADDM.pricd7.text.toString()
                     if (pricD7.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd7.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD8 += customDialogFB.pricd8.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd7.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    pricD8 = customDialogADDM.pricd8.text.toString()
                     if (pricD8.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd8.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    pricD9 += customDialogFB.pricd9.text.toString()
+                        viewModel.totalAmount += customDialogADDM.pricd8.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    pricD9 = customDialogADDM.pricd9.text.toString()
                     if (pricD9.isNotEmpty()){
-                        viewModel.totalAmount += customDialogFB.pricd9.text.toString().toInt()
-                        toolbar?.title = "المجموع " + viewModel.totalAmount.toString()}
-                    customDialogFB.dismiss()
+                        viewModel.totalAmount += customDialogADDM.pricd9.text.toString().toInt()
+                        toolbar?.title = viewModel.totalAmount.toString()}
+                    customDialogADDM.dismiss()
                 }
                 binding.appBarMain.fab.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
-                customDialogFB.show()
+                customDialogADDM.show()
             }
         }
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_first,R.id.nav_gallery,R.id.nav_home,R.id.nav_slideshow,R.id.nav_m5r6ah,R.id.nav_incoming
@@ -512,30 +552,40 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId ==R.id.action_Save) {
-            var total1 =""
-            total1 += viewModel.totalAmount
+
             val customDialogFB_paying = Dialog(this)
             customDialogFB_paying.setContentView(R.layout.paying_dailog)
             customDialogFB_paying.setCancelable(false)
             customDialogFB_paying.window?.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
+            viewModel.totalAmount = toolbar?.title.toString().toInt()
             customDialogFB_paying.receivables_price.text = viewModel.totalAmount.toString()
+
             customDialogFB_paying.cash_price.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    customDialogFB_paying.cash_paying.isEnabled =
-                        customDialogFB_paying.cash_price.toString().trim().isNotEmpty()
-                }
-
+//                    if (customDialogFB_paying.cash_price.text.toString()
+//                            .toInt() > customDialogFB_paying.receivables_price.text.toString()
+//                            .toInt()
+//                    ) {
+//                        Toast.makeText(applicationContext, "القيمة المدخلة اكبر من قيمة الذمم", Toast.LENGTH_SHORT).show()
+//                        customDialogFB_paying.cash_paying.isChecked = false
+//                        customDialogFB_paying.cash_paying.isEnabled =false
+//                    } else {
+                        customDialogFB_paying.cash_paying.isEnabled =
+                            customDialogFB_paying.cash_price.toString().trim().isNotEmpty()
+                    }
+//                }
                 override fun afterTextChanged(p0: Editable?) {
                 }
             }
 
             )
+
             customDialogFB_paying.wallet_price.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -550,6 +600,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             })
+
             customDialogFB_paying.credit_price.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -564,6 +615,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             })
+
             customDialogFB_paying.Discount_price.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -579,49 +631,126 @@ class MainActivity : AppCompatActivity() {
 
             })
 
+            customDialogFB_paying.receivables_price.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (customDialogFB_paying.receivables_price.text.toString() == "0"){
+                        customDialogFB_paying.receivables.isEnabled = false
+                    }
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                }
+
+            })
+
             customDialogFB_paying.cash_paying.setOnCheckedChangeListener { _, b ->
                 if (customDialogFB_paying.cash_paying.isChecked) {
-                    cash_paying1 += customDialogFB_paying.cash_paying.text.toString()
-                    cash_price11 += customDialogFB_paying.cash_price.text.toString()
-                    viewModel.totalAmount -= customDialogFB_paying.cash_price.text.toString().toInt()
-                    customDialogFB_paying.receivables_price.text = viewModel.totalAmount.toString()
-                    customDialogFB_paying.cash_paying.isEnabled = false
+                    if (customDialogFB_paying.cash_price.text.toString()
+                            .toInt() > customDialogFB_paying.receivables_price.text.toString()
+                            .toInt()
+                    ) {
+                        Toast.makeText(applicationContext, "القيمة المدخلة اكبر من قيمة الذمم", Toast.LENGTH_LONG)
+                            .show()
+                        customDialogFB_paying.cash_paying.isChecked = false
+                    } else {
+                        cash_paying1 += customDialogFB_paying.cash_paying.text.toString()
+                        cash_price11 += customDialogFB_paying.cash_price.text.toString()
+                        viewModel.totalAmount -= customDialogFB_paying.cash_price.text.toString()
+                            .toInt()
+                        customDialogFB_paying.receivables_price.text =
+                            viewModel.totalAmount.toString()
+                        customDialogFB_paying.cash_paying.isEnabled = false
+                        customDialogFB_paying.cash_price.isEnabled = false
+
+                    }
                 }
             }
+
             customDialogFB_paying.wallet.setOnCheckedChangeListener { _, b ->
                 if (customDialogFB_paying.wallet.isChecked) {
-                    wallet1 += customDialogFB_paying.wallet.text.toString()
-                    wallet_price1 += customDialogFB_paying.wallet_price.text.toString()
-                    viewModel.totalAmount -= customDialogFB_paying.wallet_price.text.toString().toInt()
-                    customDialogFB_paying.receivables_price.text = viewModel.totalAmount.toString()
-                    customDialogFB_paying.wallet.isEnabled = false
+                    if (customDialogFB_paying.wallet_price.text.toString()
+                            .toInt() > customDialogFB_paying.receivables_price.text.toString()
+                            .toInt()
+                    ) {
+                        Toast.makeText(this, "القيمة المدخلة اكبر من قيمة الذمم", Toast.LENGTH_LONG)
+                            .show()
+                        customDialogFB_paying.wallet.isChecked = false
+                    } else {
+                        wallet1 += customDialogFB_paying.wallet.text.toString()
+                        wallet_price1 += customDialogFB_paying.wallet_price.text.toString()
+                        viewModel.totalAmount -= customDialogFB_paying.wallet_price.text.toString()
+                            .toInt()
+                        customDialogFB_paying.receivables_price.text =
+                            viewModel.totalAmount.toString()
+                        customDialogFB_paying.wallet.isEnabled = false
+                        customDialogFB_paying.wallet_price.isEnabled = false
+                    }
                 }
             }
 
             customDialogFB_paying.credit.setOnCheckedChangeListener { _, b ->
                 if (customDialogFB_paying.credit.isChecked) {
-                    credit1 += customDialogFB_paying.credit.text.toString()
-                    credit_price1 += customDialogFB_paying.credit_price.text.toString()
-                    viewModel.totalAmount -= customDialogFB_paying.credit_price.text.toString().toInt()
-                    customDialogFB_paying.receivables_price.text = viewModel.totalAmount.toString()
-                    customDialogFB_paying.credit.isEnabled = false
-                }
+
+                        if (customDialogFB_paying.credit_price.text.toString()
+                                .toInt() > customDialogFB_paying.receivables_price.text.toString()
+                                .toInt()
+                        ) {
+                            Toast.makeText(
+                                this,
+                                "القيمة المدخلة اكبر من قيمة الذمم",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                            customDialogFB_paying.credit.isChecked = false
+                        } else {
+                            credit1 += customDialogFB_paying.credit.text.toString()
+                            credit_price1 += customDialogFB_paying.credit_price.text.toString()
+                            viewModel.totalAmount -= customDialogFB_paying.credit_price.text.toString()
+                                .toInt()
+                            customDialogFB_paying.receivables_price.text =
+                                viewModel.totalAmount.toString()
+                            customDialogFB_paying.credit.isEnabled = false
+                            customDialogFB_paying.credit_price.isEnabled = false
+                        }
+                    }
             }
             customDialogFB_paying.Discount.setOnCheckedChangeListener { _, b ->
                 if (customDialogFB_paying.Discount.isChecked) {
-                    Discount1 += customDialogFB_paying.Discount.text.toString()
-                    Discount_pricec1 += customDialogFB_paying.Discount_price.text.toString()
-                    viewModel.totalAmount -= customDialogFB_paying.Discount_price.text.toString().toInt()
-                    customDialogFB_paying.receivables_price.text = viewModel.totalAmount.toString()
-                    customDialogFB_paying.Discount.isEnabled = false
-                }
+
+                            if (customDialogFB_paying.Discount_price.text.toString()
+                                    .toInt() > customDialogFB_paying.receivables_price.text.toString()
+                                    .toInt()
+                            ) {
+                                Toast.makeText(
+                                    this,
+                                    "القيمة المدخلة اكبر من قيمة الذمم",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+                                customDialogFB_paying.Discount.isChecked = false
+                            } else {
+                                Discount1 += customDialogFB_paying.Discount.text.toString()
+                                Discount_pricec1 += customDialogFB_paying.Discount_price.text.toString()
+                                viewModel.totalAmount -= customDialogFB_paying.Discount_price.text.toString()
+                                    .toInt()
+                                customDialogFB_paying.receivables_price.text =
+                                    viewModel.totalAmount.toString()
+                                customDialogFB_paying.Discount.isEnabled = false
+                                customDialogFB_paying.Discount_price.isEnabled = false
+                            }
+                        }
             }
             customDialogFB_paying.receivables.setOnCheckedChangeListener { _, b ->
                 if (customDialogFB_paying.receivables.isChecked) {
                     receivables1 += customDialogFB_paying.receivables.text.toString()
                     receivables_price1 += customDialogFB_paying.receivables_price.text.toString()
                     customDialogFB_paying.Discount.isEnabled = false
-                }
+                }else{receivables1 =""
+                    receivables_price1 =""}
             }
 
             customDialogFB_paying.button_dailog_cancel_P.setOnClickListener {
@@ -668,27 +797,6 @@ class MainActivity : AppCompatActivity() {
 
             customDialogFB_paying.button_dailog_save_p.setOnClickListener {
 
-                var checkname1 = ""
-                var checkname2 = ""
-                var checkname3 = ""
-                var checkname4 = ""
-                var checkname5 = ""
-                var checkname6 = ""
-                var checkname7 = ""
-                var checkname8 = ""
-                var checkname9 = ""
-                var checkname10 = ""
-                var checkname11 = ""
-                var checkname12 = ""
-                var checkname13 = ""
-                var checkname14 = ""
-                var checkname15 = ""
-                var checkname16 = ""
-                var checkname17 = ""
-                var checkname18 = ""
-                var checkname19 = ""
-                var checkname20 = ""
-
                 var checkname2_1 = ""
                 var checkname2_2 = ""
                 var checkname2_3 = ""
@@ -718,27 +826,6 @@ class MainActivity : AppCompatActivity() {
                 var checkname3_4 = ""
                 var checkname3_5 = ""
                 var checkname3_6 = ""
-
-                var editname1 = ""
-                var editname2 = ""
-                var editname3 = ""
-                var editname4 = ""
-                var editname5 = ""
-                var editname6 = ""
-                var editname7 = ""
-                var editname8 = ""
-                var editname9 = ""
-                var editname10 = ""
-                var editname11 = ""
-                var editname12 = ""
-                var editname13 = ""
-                var editname14 = ""
-                var editname15 = ""
-                var editname16 = ""
-                var editname17 = ""
-                var editname18 = ""
-                var editname19 = ""
-                var editname20 = ""
 
                 var editname2_1 = ""
                 var editname2_2 = ""
@@ -771,114 +858,7 @@ class MainActivity : AppCompatActivity() {
                 var editname3_6 = ""
 
                 var total = ""
-                total += total1
-
-                val ch1 = findViewById<CheckBox>(R.id.ch1)
-                ch1.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (isChecked) {
-                        checkname1 += ch1.text
-                        editname1 += editTextNumber1.text
-                    }}
-
-//                if (ch1 != null && ch1.isChecked) {
-//                    checkname1 += ch1.text
-//                    editname1 += editTextNumber1.text
-//                }
-                if (ch2 != null && ch2.isChecked) {
-                    checkname2 += ch2.text
-                    editname2 += pricd2.text
-                }
-
-                if (ch3 != null && ch3.isChecked) {
-                    checkname3 += ch3.text
-                    editname3 += pricd3.text
-                }
-
-                if (ch4 != null && ch4.isChecked) {
-                    checkname4 += ch4.text
-                    editname4 += pricd4.text
-                }
-
-                if (ch5 != null && ch5.isChecked) {
-                    checkname5 += ch5.text
-                    editname5 += pricd5.text
-                }
-
-                if (ch6 != null && ch6.isChecked) {
-                    checkname6 += ch6.text
-                    editname6 += pricd6.text
-                }
-
-                if (ch7 != null && ch7.isChecked) {
-                    checkname7 += ch7.text
-                    editname7 += pricd7.text
-                }
-
-                if (ch8 != null && ch8.isChecked) {
-                    checkname8 += ch8.text
-                    editname8 += pricd8.text
-                }
-
-                if (ch9 != null && ch9.isChecked) {
-                    checkname9 += ch9.text
-                    editname9 += pricd9.text
-                }
-
-                if (ch10 != null && ch10.isChecked) {
-                    checkname10 += ch10.text
-                    editname10 += editTextNumber10.text
-                }
-
-                if (ch11 != null && ch11.isChecked) {
-                    checkname11 += ch11.text
-                    editname11 += editTextNumber11.text
-                }
-
-                if (ch12 != null && ch12.isChecked) {
-                    checkname12 += ch12.text
-                    editname12 += editTextNumber12.text
-                }
-
-                if (ch13 != null && ch13.isChecked) {
-                    checkname13 += ch13.text
-                    editname13 += editTextNumber13.text
-                }
-
-                if (ch14 != null && ch14.isChecked) {
-                    checkname14 += ch14.text
-                    editname14 += editTextNumber14.text
-                }
-
-                if (ch15 != null && ch15.isChecked) {
-                    checkname15 += ch15.text
-                    editname15 += editTextNumber15.text
-                }
-
-                if (ch16 != null && ch16.isChecked) {
-                    checkname16 += ch16.text
-                    editname16 += editTextNumber16.text
-                }
-
-                if (ch17 != null && ch17.isChecked) {
-                    checkname17 += ch17.text
-                    editname17 += editTextNumber17.text
-                }
-
-                if (ch18 != null && ch18.isChecked) {
-                    checkname18 += ch18.text
-                    editname18 += editTextNumber18.text
-                }
-
-                if (ch19 != null && ch19.isChecked) {
-                    checkname19 += ch19.text
-                    editname19 += editTextNumber19.text
-                }
-
-                if (ch20 != null && ch20.isChecked) {
-                    checkname20 += ch20.text
-                    editname20 += editTextNumber20.text
-                }
-
+                total += toolbar?.title.toString()
 
                 if (ch_2_1 != null && ch_2_1.isChecked) {
                     checkname2_1 += ch_2_1.text
@@ -991,15 +971,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
 
-                ch_3_1.setOnCheckedChangeListener { buttonView, isChecked ->
-                    if (ch_3_1 != null && ch_3_1.isChecked) {
-                        checkname3 += ch_3_1.text
-                        editname3 += p_p_3_1.text
-                    }}
-//                if (ch_3_1 != null && ch_3_1.isChecked) {
-//                    checkname3_1 += ch_3_1.text
-//                    editname3_1 += p_p_3_1.text
-//                }
+                if (ch_3_1 != null && ch_3_1.isChecked) {
+                    checkname3_1 += ch_3_1.text.toString()
+                    editname3_1 += p_p_3_1.text.toString()
+                }
 
                 if (ch_3_2 != null && ch_3_2.isChecked) {
                     checkname3_2 += ch_3_2.text
@@ -1026,32 +1001,35 @@ class MainActivity : AppCompatActivity() {
                     editname3_6 += p_p_3_6.text
                 }
 
+                addojoryadwyeh += customDialogCAM.ojor_yadwyeh.text.toString().trim()
+                addojor5ra6ah += customDialogCAM.ojor_5ra6ah.text.toString().trim()
+                addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
 
                 val checkSend = CheckData(
                     "",
                     "",
                     "",
                     "",
-                    checkname1,
-                    checkname2,
-                    checkname3,
-                    checkname4,
-                    checkname5,
-                    checkname6,
-                    checkname7,
-                    checkname8,
-                    checkname9,
-                    checkname10,
-                    checkname11,
-                    checkname12,
-                    checkname13,
-                    checkname14,
-                    checkname15,
-                    checkname16,
-                    checkname17,
-                    checkname18,
-                    checkname19,
-                    checkname20,
+                    homeModel.checkname1,
+                    homeModel.checkname2,
+                    homeModel.checkname3,
+                    homeModel.checkname4,
+                    homeModel.checkname5,
+                    homeModel.checkname6,
+                    homeModel.checkname7,
+                    homeModel.checkname8,
+                    homeModel.checkname9,
+                    homeModel.checkname10,
+                    homeModel.checkname11,
+                    homeModel.checkname12,
+                    homeModel.checkname13,
+                    homeModel.checkname14,
+                    homeModel.checkname15,
+                    homeModel.checkname16,
+                    homeModel.checkname17,
+                    homeModel.checkname18,
+                    homeModel.checkname19,
+                    homeModel.checkname20,
 
                     checkname2_1,
                     checkname2_2,
@@ -1083,26 +1061,26 @@ class MainActivity : AppCompatActivity() {
                     checkname3_5,
                     checkname3_6,
 
-                    editname1,
-                    editname2,
-                    editname3,
-                    editname4,
-                    editname5,
-                    editname6,
-                    editname7,
-                    editname8,
-                    editname9,
-                    editname10,
-                    editname11,
-                    editname12,
-                    editname13,
-                    editname14,
-                    editname15,
-                    editname16,
-                    editname17,
-                    editname18,
-                    editname19,
-                    editname20,
+                    homeModel.editname1,
+                    homeModel.editname2,
+                    homeModel.editname3,
+                    homeModel.editname4,
+                    homeModel.editname5,
+                    homeModel.editname6,
+                    homeModel.editname7,
+                    homeModel.editname8,
+                    homeModel.editname9,
+                    homeModel.editname10,
+                    homeModel.editname11,
+                    homeModel.editname12,
+                    homeModel.editname13,
+                    homeModel.editname14,
+                    homeModel.editname15,
+                    homeModel.editname16,
+                    homeModel.editname17,
+                    homeModel.editname18,
+                    homeModel.editname19,
+                    homeModel.editname20,
 
                     editname2_1,
                     editname2_2,
@@ -1170,175 +1148,265 @@ class MainActivity : AppCompatActivity() {
                     wallet_price1,
                     credit_price1,
                     Discount_pricec1,
-                    receivables_price1
+                    receivables_price1,
+
+                    addojoryadwyeh,
+                    addojor5ra6ah,
+                    addtotalcame.toString()
+
                 )
+                if (!isNetworkAvailable(this)) {
+                    Toast.makeText(this, "خدمة الانترنت غير متوفرة", Toast.LENGTH_LONG).show()
+                } else {sentMessage(checkSend)
 
-                sentMessage(checkSend)
 
-                if (ch1 != null) {
-                    ch1.isChecked = false}
-                if (ch2 != null) {
-                    ch2.isChecked = false}
-                if (ch3 != null) {
-                    ch3.isChecked = false}
-                if (ch4 != null) {
-                    ch4.isChecked = false}
-                if (ch5 != null) {
-                    ch5.isChecked = false}
-                if (ch6 != null) {
-                    ch6.isChecked = false}
-                if (ch7 != null) {
-                    ch7.isChecked = false}
-                if (ch8 != null) {
-                    ch8.isChecked = false}
-                if (ch9 != null) {
-                    ch9.isChecked = false}
-                if (ch10 != null) {
-                    ch10.isChecked = false}
-                if (ch11 != null) {
-                    ch11.isChecked = false}
-                if (ch12 != null) {
-                    ch12.isChecked = false}
-                if (ch13 != null) {
-                    ch13.isChecked = false}
-                if (ch14 != null) {
-                    ch14.isChecked = false}
-                if (ch15 != null) {
-                    ch15.isChecked = false}
-                if (ch16 != null) {
-                    ch16.isChecked = false}
-                if (ch17 != null) {
-                    ch17.isChecked = false}
-                if (ch18 != null) {
-                    ch18.isChecked = false}
-                if (ch19 != null) {
-                    ch19.isChecked = false}
-                if (ch20 != null) {
-                    ch20.isChecked = false}
+                    if (ch1 != null) {
+                        ch1.isChecked = false
+                    }
+                    if (ch2 != null) {
+                        ch2.isChecked = false
+                    }
+                    if (ch3 != null) {
+                        ch3.isChecked = false
+                    }
+                    if (ch4 != null) {
+                        ch4.isChecked = false
+                    }
+                    if (ch5 != null) {
+                        ch5.isChecked = false
+                    }
+                    if (ch6 != null) {
+                        ch6.isChecked = false
+                    }
+                    if (ch7 != null) {
+                        ch7.isChecked = false
+                    }
+                    if (ch8 != null) {
+                        ch8.isChecked = false
+                    }
+                    if (ch9 != null) {
+                        ch9.isChecked = false
+                    }
+                    if (ch10 != null) {
+                        ch10.isChecked = false
+                    }
+                    if (ch11 != null) {
+                        ch11.isChecked = false
+                    }
+                    if (ch12 != null) {
+                        ch12.isChecked = false
+                    }
+                    if (ch13 != null) {
+                        ch13.isChecked = false
+                    }
+                    if (ch14 != null) {
+                        ch14.isChecked = false
+                    }
+                    if (ch15 != null) {
+                        ch15.isChecked = false
+                    }
+                    if (ch16 != null) {
+                        ch16.isChecked = false
+                    }
+                    if (ch17 != null) {
+                        ch17.isChecked = false
+                    }
+                    if (ch18 != null) {
+                        ch18.isChecked = false
+                    }
+                    if (ch19 != null) {
+                        ch19.isChecked = false
+                    }
+                    if (ch20 != null) {
+                        ch20.isChecked = false
+                    }
 
-                if (ch_2_1 != null) {
-                    ch_2_1.isChecked = false}
-                if (ch_2_2 != null) {
-                    ch_2_2.isChecked = false}
-                if (ch_2_3 != null) {
-                    ch_2_3.isChecked = false}
-                if (ch_2_4 != null) {
-                    ch_2_4.isChecked = false}
-                if (ch_2_5 != null) {
-                    ch_2_5.isChecked = false}
-                if (ch_2_6 != null) {
-                    ch_2_6.isChecked = false}
-                if (ch_2_7 != null) {
-                    ch_2_7.isChecked = false}
-                if (ch_2_8 != null) {
-                    ch_2_8.isChecked = false}
-                if (ch_2_9 != null) {
-                    ch_2_9.isChecked = false}
-                if (ch_2_10 != null) {
-                    ch_2_10.isChecked = false}
-                if (ch_2_11 != null) {
-                    ch_2_11.isChecked = false}
-                if (ch_2_12 != null) {
-                    ch_2_12.isChecked = false}
-                if (ch_2_13 != null) {
-                    ch_2_13.isChecked = false}
-                if (ch_2_14 != null) {
-                    ch_2_14.isChecked = false}
-                if (ch_2_15 != null) {
-                    ch_2_15.isChecked = false}
-                if (ch_2_16 != null) {
-                    ch_2_16.isChecked = false}
-                if (ch_2_17 != null) {
-                    ch_2_17.isChecked = false}
-                if (ch_2_18 != null) {
-                    ch_2_18.isChecked = false}
-                if (ch_2_19 != null) {
-                    ch_2_19.isChecked = false}
-                if (ch_2_20 != null) {
-                    ch_2_20.isChecked = false}
-                if (ch_2_21 != null) {
-                    ch_2_21.isChecked = false}
-                if (ch_2_22 != null) {
-                    ch_2_22.isChecked = false}
+                    if (ch_2_1 != null) {
+                        ch_2_1.isChecked = false
+                    }
+                    if (ch_2_2 != null) {
+                        ch_2_2.isChecked = false
+                    }
+                    if (ch_2_3 != null) {
+                        ch_2_3.isChecked = false
+                    }
+                    if (ch_2_4 != null) {
+                        ch_2_4.isChecked = false
+                    }
+                    if (ch_2_5 != null) {
+                        ch_2_5.isChecked = false
+                    }
+                    if (ch_2_6 != null) {
+                        ch_2_6.isChecked = false
+                    }
+                    if (ch_2_7 != null) {
+                        ch_2_7.isChecked = false
+                    }
+                    if (ch_2_8 != null) {
+                        ch_2_8.isChecked = false
+                    }
+                    if (ch_2_9 != null) {
+                        ch_2_9.isChecked = false
+                    }
+                    if (ch_2_10 != null) {
+                        ch_2_10.isChecked = false
+                    }
+                    if (ch_2_11 != null) {
+                        ch_2_11.isChecked = false
+                    }
+                    if (ch_2_12 != null) {
+                        ch_2_12.isChecked = false
+                    }
+                    if (ch_2_13 != null) {
+                        ch_2_13.isChecked = false
+                    }
+                    if (ch_2_14 != null) {
+                        ch_2_14.isChecked = false
+                    }
+                    if (ch_2_15 != null) {
+                        ch_2_15.isChecked = false
+                    }
+                    if (ch_2_16 != null) {
+                        ch_2_16.isChecked = false
+                    }
+                    if (ch_2_17 != null) {
+                        ch_2_17.isChecked = false
+                    }
+                    if (ch_2_18 != null) {
+                        ch_2_18.isChecked = false
+                    }
+                    if (ch_2_19 != null) {
+                        ch_2_19.isChecked = false
+                    }
+                    if (ch_2_20 != null) {
+                        ch_2_20.isChecked = false
+                    }
+                    if (ch_2_21 != null) {
+                        ch_2_21.isChecked = false
+                    }
+                    if (ch_2_22 != null) {
+                        ch_2_22.isChecked = false
+                    }
 
-                if (ch_3_1 != null) {
-                    ch_3_1.isChecked = false
-                }
+                    if (ch_3_1 != null) {
+                        ch_3_1.isChecked = false
+                    }
 
-                if (ch_3_2 != null) {
-                    ch_3_2.isChecked = false
-                }
-                if (ch_3_3 != null) {
-                    ch_3_3.isChecked = false
-                }
-                if (ch_3_4 != null) {
-                    ch_3_4.isChecked = false
-                }
-                if (ch_3_5 != null) {
-                    ch_3_5.isChecked = false
-                }
-                if (ch_3_6 != null) {
-                    ch_3_6.isChecked = false
-                }
-                if (editTextNumber1 != null) {
-                    editTextNumber1.text = null}
-                if (pricd2 != null){
-                    pricd2.text = null}
-                if (pricd3 != null){
-                    pricd3.text = null}
-                if (pricd4 != null){
-                    pricd4.text = null}
-                if (pricd5 != null){
-                    pricd5.text = null}
-                if (pricd6 != null){
-                    pricd6.text = null}
-                if (pricd7 != null){
-                    pricd7.text = null}
-                if (pricd8 != null){
-                    pricd8.text = null}
-                if (pricd9 != null){
-                    pricd9.text = null}
-                if (editTextNumber10 != null){
-                    editTextNumber10.text = null}
-                if (editTextNumber11 != null){
-                    editTextNumber11.text = null}
-                if (editTextNumber12 != null){
-                    editTextNumber12.text = null}
-                if (editTextNumber13 != null){
-                    editTextNumber13.text = null}
-                if (editTextNumber14 != null){
-                    editTextNumber14.text = null}
-                if (editTextNumber15 != null){
-                    editTextNumber15.text = null}
-                if (editTextNumber16 != null){
-                    editTextNumber16.text = null}
-                if (editTextNumber17 != null){
-                    editTextNumber17.text = null}
-                if (editTextNumber18 != null){
-                    editTextNumber18.text = null}
-                receivables1 =""
-                receivables_price1 =""
-                cash_paying1 =""
-                cash_price11 =""
-                wallet1 =""
-                wallet_price1 =""
-                credit1 =""
-                credit_price1 =""
-                Discount1 =""
-                Discount_pricec1=""
-                toolbar?.title=""
+                    if (ch_3_2 != null) {
+                        ch_3_2.isChecked = false
+                    }
+                    if (ch_3_3 != null) {
+                        ch_3_3.isChecked = false
+                    }
+                    if (ch_3_4 != null) {
+                        ch_3_4.isChecked = false
+                    }
+                    if (ch_3_5 != null) {
+                        ch_3_5.isChecked = false
+                    }
+                    if (ch_3_6 != null) {
+                        ch_3_6.isChecked = false
+                    }
+                    if (editTextNumber1 != null) {
+                        editTextNumber1.text = null
+                    }
+                    if (pricd2 != null) {
+                        pricd2.text = null
+                    }
+                    if (pricd3 != null) {
+                        pricd3.text = null
+                    }
+                    if (pricd4 != null) {
+                        pricd4.text = null
+                    }
+                    if (pricd5 != null) {
+                        pricd5.text = null
+                    }
+                    if (pricd6 != null) {
+                        pricd6.text = null
+                    }
+                    if (pricd7 != null) {
+                        pricd7.text = null
+                    }
+                    if (pricd8 != null) {
+                        pricd8.text = null
+                    }
+                    if (pricd9 != null) {
+                        pricd9.text = null
+                    }
+                    if (editTextNumber10 != null) {
+                        editTextNumber10.text = null
+                    }
+                    if (editTextNumber11 != null) {
+                        editTextNumber11.text = null
+                    }
+                    if (editTextNumber12 != null) {
+                        editTextNumber12.text = null
+                    }
+                    if (editTextNumber13 != null) {
+                        editTextNumber13.text = null
+                    }
+                    if (editTextNumber14 != null) {
+                        editTextNumber14.text = null
+                    }
+                    if (editTextNumber15 != null) {
+                        editTextNumber15.text = null
+                    }
+                    if (editTextNumber16 != null) {
+                        editTextNumber16.text = null
+                    }
+                    if (editTextNumber17 != null) {
+                        editTextNumber17.text = null
+                    }
+                    if (editTextNumber18 != null) {
+                        editTextNumber18.text = null
+                    }
+                    receivables1 = ""
+                    receivables_price1 = ""
+                    cash_paying1 = ""
+                    cash_price11 = ""
+                    wallet1 = ""
+                    wallet_price1 = ""
+                    credit1 = ""
+                    credit_price1 = ""
+                    Discount1 = ""
+                    Discount_pricec1 = ""
+                    toolbar?.title = ""
+                    viewModel.totalAmount = 0
 
-                customDialogFB_paying.dismiss()
+                    customDialogADDM.tproced1.setText("")
+                    customDialogADDM.tproced2.setText("")
+                    customDialogADDM.tproced3.setText("")
+                    customDialogADDM.tproced4.setText("")
+                    customDialogADDM.tproced5.setText("")
+                    customDialogADDM.tproced6.setText("")
+                    customDialogADDM.tproced7.setText("")
+                    customDialogADDM.tproced8.setText("")
+                    customDialogADDM.tproced9.setText("")
+
+                    customDialogADDM.pricd1.setText("")
+                    customDialogADDM.pricd2.setText("")
+                    customDialogADDM.pricd3.setText("")
+                    customDialogADDM.pricd4.setText("")
+                    customDialogADDM.pricd5.setText("")
+                    customDialogADDM.pricd6.setText("")
+                    customDialogADDM.pricd7.setText("")
+                    customDialogADDM.pricd8.setText("")
+                    customDialogADDM.pricd9.setText("")
+
+
+                    customDialogFB_paying.dismiss()
 
 //                Navigation.findNavController(this,R.id.nav_host_fragment_content_main).navigate(R.id.nav_first)
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }
+
+
             }
-
             customDialogFB_paying.show()
-
         }
         return super.onOptionsItemSelected(item)
     }
@@ -1363,49 +1431,68 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        val spannableString = SpannableString("يجب وضع صوره من الاستديو")
+        spannableString.setSpan(
+            ForegroundColorSpan(Color.GREEN), 0, spannableString.length, 0
+        )
+        spannableString.setSpan(
+            AbsoluteSizeSpan(60), 0, spannableString.length, 0
+        )
+        val toast_notempty = Toast.makeText(this, spannableString, Toast.LENGTH_SHORT)
+
         if (resultCode==Activity.RESULT_OK && requestCode ==REQUST_CODE &&
             data != null && data.data != null) {
             val selectedImagePath = data.data
             customDialogCAM.cam_img.setImageURI(selectedImagePath)
 
             customDialogCAM.save_camera.setOnClickListener {
-                if (customDialogCAM.ojor_yadwyeh.text.toString().isEmpty() && customDialogCAM.ojor_5ra6ah.text.toString().isEmpty()) {
-                    customDialogCAM.ojor_yadwyeh.error = "يجب تعبئة احد الحقلين"
-                    customDialogCAM.ojor_yadwyeh.requestFocus()
-                    return@setOnClickListener
-                }
+                if (!isNetworkAvailable(this)) {
+                    Toast.makeText(this, "خدمة الانترنت غير متوفرة", Toast.LENGTH_LONG).show()
+                } else {
+                    if (customDialogCAM.ojor_yadwyeh.text.toString().isEmpty()
+                        && customDialogCAM.ojor_5ra6ah.text.toString().isEmpty()
+                    ) {
+                        customDialogCAM.ojor_yadwyeh.error = "يجب تعبئة احد الحقلين"
+                        customDialogCAM.ojor_yadwyeh.requestFocus()
+                        return@setOnClickListener
+                    }
+//            }
 
-                addojoryadwyeh +=customDialogCAM.ojor_yadwyeh.text.toString().trim()
-                addojor5ra6ah +=customDialogCAM.ojor_5ra6ah.text.toString().trim()
-                addtotalcame +=customDialogCAM.majmo3_2jra2.text.toString().trim()
+//                    addojoryadwyeh += customDialogCAM.ojor_yadwyeh.text.toString().trim()
+//                    addojor5ra6ah += customDialogCAM.ojor_5ra6ah.text.toString().trim()
+//                    addtotalcame = customDialogCAM.majmo3_2jra2.text.toString().toInt()
+//
+//                    val contentMessage2 = mutableMapOf<String, Any>()
+//                    contentMessage2["ojor2ed"] = addojoryadwyeh
+//                    contentMessage2["ojorm5r6ah"] = addojor5ra6ah
+//                    contentMessage2["mjmo3came"] = addtotalcame
+//
+//                    val ref1 = firestoreInstance.collection("chatChannels")
+//                        .document(viewModel.myData1).collection("messages")
+//                        .document(viewModel.myData2)
+//                    ref1.update(contentMessage2)
 
-            val contentMessage2 = mutableMapOf<String, Any>()
-            val ref1 = firestoreInstance.collection("chatChannels")
-                .document(viewModel.myData1).collection("messages")
-                .document(viewModel.myData2)
 
-            contentMessage2["ojor2ed"] = addojoryadwyeh
-            contentMessage2["ojorm5r6ah"] = addojor5ra6ah
-            contentMessage2["mjmo3came"] = addtotalcame
-            ref1.update(contentMessage2)
+                    val selectedImageBmp =
+                        MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImagePath)
+                    val outputStream = ByteArrayOutputStream()
+                    selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 20, outputStream)
+                    val selectedImageBytes = outputStream.toByteArray()
+                    uploadProfileImage(selectedImageBytes) { path ->
+                        val userFieldMap = mutableMapOf<String, Any>()
+                        userFieldMap["customerImage"] = path
+                        firestoreInstance.collection("chatChannels")
+                            .document(viewModel.myData1).collection("messages")
+                            .document(viewModel.myData2)
+                            .update(userFieldMap)
+                    }
 
+                    binding.appBarMain.fab.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
 
-                val selectedImageBmp = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImagePath)
-                val outputStream = ByteArrayOutputStream()
-                selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 20, outputStream)
-                val selectedImageBytes = outputStream.toByteArray()
-                uploadProfileImage(selectedImageBytes) { path ->
-                    val userFieldMap = mutableMapOf<String, Any>()
-                    userFieldMap["customerImage"] = path
-                    firestoreInstance.collection("chatChannels")
-                        .document(viewModel.myData1).collection("messages").document(viewModel.myData2)
-                        .update(userFieldMap)
-                }
-
-                binding.appBarMain.fab.setImageDrawable(resources.getDrawable(android.R.drawable.ic_menu_add))
                 }
             }
         }
+    }
 
     private fun uploadProfileImage(selectedImageBytes: ByteArray, onSuccess: (imagePath: String) -> Unit) {
         val ref = currentUserStorageRef.child("customerPictures/${UUID.nameUUIDFromBytes(selectedImageBytes)}")
@@ -1419,11 +1506,19 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error : ${it.exception?.message.toString()}", Toast.LENGTH_LONG)
                     .show()
             }
-            customDialogCAM.ojor_yadwyeh.setText("")
-            customDialogCAM.ojor_5ra6ah.setText("")
+
             customDialogCAM.cam_img.setImageResource(R.mipmap.logo_foreground)
+
+            customDialogCAM.progressBar1.visibility = View.INVISIBLE
             customDialogCAM.dismiss()
+
+
         }
+//        customDialogCAM.ojor_yadwyeh.setText("")
+//        customDialogCAM.ojor_5ra6ah.setText("")
+//         +=
+            viewModel.totalAmount += addtotalcame
+//        toolbar?.title = addtotalcame.toString()
     }
 
     private fun sentMessage( check1: CheckData) {
@@ -1567,8 +1662,17 @@ class MainActivity : AppCompatActivity() {
         contentMessage["discount_price1"] = check1.discount_price1
         contentMessage["receivables_price1"] = check1.receivables_price1
 
+        contentMessage["ojor2ed"] = check1.ojor2ed
+        contentMessage["ojorm5r6ah"] = check1.ojorm5r6ah
+        contentMessage["mjmo3came"] = check1.mjmo3came
+
         chatChannelsCollectionRef.document(viewModel.myData1).collection("messages")
             .document(viewModel.myData2)
             .update(contentMessage)
     }
+        private fun isNetworkAvailable(context: Context): Boolean {
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
 }
