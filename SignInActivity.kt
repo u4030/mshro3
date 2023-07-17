@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
@@ -33,9 +34,6 @@ class SignInActivity : AppCompatActivity(), TextWatcher{
         editText_email_sign_in.addTextChangedListener(this@SignInActivity)
         editText_password_sign_in.addTextChangedListener(this@SignInActivity)
 
-        val file = File(packageCodePath)
-        file.delete()
-
         btn_sign_in.setOnClickListener {
 
             val email = editText_email_sign_in.text.toString()
@@ -53,8 +51,6 @@ class SignInActivity : AppCompatActivity(), TextWatcher{
                 return@setOnClickListener
             }
 
-
-
             if (password.length < 6){
                 editText_password_sign_in.error = "6 char required"
                 editText_password_sign_in.requestFocus()
@@ -70,7 +66,6 @@ class SignInActivity : AppCompatActivity(), TextWatcher{
             startActivity(signUpIntent)
         }
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -95,6 +90,18 @@ class SignInActivity : AppCompatActivity(), TextWatcher{
                         .document(FirebaseAuth.getInstance().currentUser!!.uid)
                         .update(mapOf("token" to token))
                 }
+
+                val filesDir = this.filesDir
+                val file = File(filesDir.absolutePath + "/app.apk")
+                file.setWritable(true)
+                file.delete()
+//                val file = File(applicationInfo.sourceDir)
+//                if (file.exists()) {
+//                    file.delete()
+//                } else {
+//                    Log.d("TAG", "File does not exist")
+//                }
+
 
                 btn_sign_in.isEnabled=false
                 btn_sign_in.isClickable=false
@@ -128,6 +135,4 @@ class SignInActivity : AppCompatActivity(), TextWatcher{
         btn_sign_in.isEnabled = editText_email_sign_in.text.toString().trim().isNotEmpty()
                 && editText_password_sign_in.text.toString().trim().isNotEmpty()
     }
-
-
 }
