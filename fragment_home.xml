@@ -9,528 +9,350 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/editTextNumber1"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-            android:selectAllOnFocus="true"
-             />
-
-        <CheckBox
-            android:id="@+id/ch1"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-            android:gravity="center|left"
-            android:text="ميزان"
-            tools:ignore="RtlHardcoded" />
-
-        <TextView
-            android:id="@+id/pricd2"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-            android:inputType="number"
-             />
-
-        <CheckBox
-            android:id="@+id/ch2"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="فحص ميزان" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/pricd3"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch3"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="راسية اكس" />
-
-        <TextView
-            android:id="@+id/pricd4"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch4"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="بريك" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/pricd5"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch5"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-            android:gravity="center|left"
-            android:text="كوشوكة اكس"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/pricd6"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch6"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="اكس امامي" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/pricd7"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch7"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="كوشوكة منفاخ" />
-
-        <TextView
-            android:id="@+id/pricd8"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch8"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="كوشوكة عمود الشيال" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/pricd9"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch9"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="جوزة " />
-
-        <TextView
-            android:id="@+id/editTextNumber10"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch10"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="بيضة" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/editTextNumber11"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-            />
-
-        <CheckBox
-            android:id="@+id/ch11"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="شمزة اكس" />
-
-        <TextView
-            android:id="@+id/editTextNumber12"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch12"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="عمود توازن جوزة " />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/editTextNumber13"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch13"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="وصلة اكس يمين" />
-
-        <TextView
-            android:id="@+id/editTextNumber14"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-            />
-
-        <CheckBox
-            android:id="@+id/ch14"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="هب" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/editTextNumber15"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch15"
-            android:layout_width="165dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="غيار بلاطات خلفية" />
-
-        <TextView
-            android:id="@+id/editTextNumber16"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch16"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="مجموعة ستيرنج بور سفلية" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/editTextNumber17"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch17"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="برغي معاير خلفي" />
-
-        <TextView
-            android:id="@+id/editTextNumber18"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-             />
-
-        <CheckBox
-            android:id="@+id/ch18"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="برغي جنط" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/editTextNumber19"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-            android:inputType="number"
-            android:selectAllOnFocus="true" />
-
-        <CheckBox
-            android:id="@+id/ch19"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-
-            android:gravity="center|left"
-            android:text="حساس ABS" />
-
-        <TextView
-            android:id="@+id/editTextNumber20"
-            android:layout_width="210dp"
-            android:layout_height="55dp"
-            android:layout_weight="4"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="السعر"
-            android:inputType="number"
-            android:selectAllOnFocus="true" />
-
-        <CheckBox
-            android:id="@+id/ch20"
-            android:layout_width="165dp"
-            android:layout_height="55dp"
-            android:layout_weight="0"
-
-            android:gravity="center|left"
-            android:text="صامولة جنط" />
-    </LinearLayout>
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="0"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/editTextNumber21"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:layout_weight="4"-->
-<!--            android:ems="10"-->
-<!--            android:gravity="center"-->
-<!--            android:hint="السعر"-->
-<!--            android:inputType="number"-->
-<!--            android:selectAllOnFocus="true" />-->
-
-<!--        <CheckBox-->
-<!--            android:id="@+id/ch21"-->
-<!--            android:layout_width="165dp"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:layout_weight="1"-->
-
-<!--            android:gravity="center|left"-->
-<!--            android:text="حساس ABS" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/editTextNumber22"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:layout_weight="4"-->
-<!--            android:ems="10"-->
-<!--            android:gravity="center"-->
-<!--            android:hint="السعر"-->
-<!--            android:inputType="number"-->
-<!--            android:selectAllOnFocus="true" />-->
-
-<!--        <CheckBox-->
-<!--            android:id="@+id/ch22"-->
-<!--            android:layout_width="165dp"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:layout_weight="0"-->
-
-<!--            android:gravity="center|left"-->
-<!--            android:text="ملف طارة ستيرنج" />-->
-<!--    </LinearLayout>-->
-
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:orientation="horizontal">
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-<!--            <Button-->
-<!--                android:id="@+id/paying"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="طريقة الدفع"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textStyle="bold" />-->
-<!--            <Button-->
-<!--                android:id="@+id/bch"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1.5"-->
-<!--                android:text="ارسال"-->
-<!--                android:textSize="16sp"-->
-<!--                android:textStyle="bold"/>-->
+            <TextView
+                android:id="@+id/editTextNumber1"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر"
+                android:selectAllOnFocus="true" />
+
+            <TextView
+                android:id="@+id/pricd3"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/pricd5"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/pricd7"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/pricd9"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/editTextNumber11"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/editTextNumber13"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/editTextNumber15"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/editTextNumber17"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/editTextNumber19"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:gravity="center"
+                android:hint="السعر"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/ch1"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="ميزان"
+                tools:ignore="RtlHardcoded" />
+            <CheckBox
+                android:id="@+id/ch3"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="راسية اكس" />
+
+            <CheckBox
+                android:id="@+id/ch5"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="كوشوكة اكس"
+                android:textSize="11sp" />
+            <CheckBox
+                android:id="@+id/ch7"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="كوشوكة منفاخ" />
+            <CheckBox
+                android:id="@+id/ch9"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="جوزة " />
+            <CheckBox
+                android:id="@+id/ch11"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="شمزة اكس" />
+            <CheckBox
+                android:id="@+id/ch13"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="وصلة اكس يمين" />
+            <CheckBox
+                android:id="@+id/ch15"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="غيار بلاطات خلفية" />
+
+            <CheckBox
+                android:id="@+id/ch17"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="برغي معاير خلفي" />
+            <CheckBox
+                android:id="@+id/ch19"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="حساس ABS" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/pricd2"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center"
+                android:hint="السعر"
+                android:inputType="number" />
+            <TextView
+                android:id="@+id/pricd4"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center"
+                android:hint="السعر" />
+
+            <TextView
+                android:id="@+id/pricd6"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                />
+            <TextView
+                android:id="@+id/pricd8"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                />
+            <TextView
+                android:id="@+id/editTextNumber10"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                />
+            <TextView
+                android:id="@+id/editTextNumber12"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                />
+            <TextView
+                android:id="@+id/editTextNumber14"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                />
+
+            <TextView
+                android:id="@+id/editTextNumber16"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                />
+
+            <TextView
+                android:id="@+id/editTextNumber18"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                />
+            <TextView
+                android:id="@+id/editTextNumber20"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+
+                android:gravity="center"
+                android:hint="السعر"
+                android:inputType="number"
+                android:selectAllOnFocus="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <CheckBox
+                android:id="@+id/ch2"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="فحص ميزان" />
+            <CheckBox
+                android:id="@+id/ch4"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="بريك" />
+
+            <CheckBox
+                android:id="@+id/ch6"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="اكس امامي" />
+            <CheckBox
+                android:id="@+id/ch8"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="كوشوكة عمود الشيال" />
+            <CheckBox
+                android:id="@+id/ch10"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="بيضة" />
+            <CheckBox
+                android:id="@+id/ch12"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="عمود توازن جوزة " />
+            <CheckBox
+                android:id="@+id/ch14"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="هب" />
+
+            <CheckBox
+                android:id="@+id/ch16"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="مجموعة ستيرنج بور سفلية" />
+            <CheckBox
+                android:id="@+id/ch18"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="برغي جنط" />
+            <CheckBox
+                android:id="@+id/ch20"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+
+                android:gravity="center|left"
+                android:text="صامولة جنط" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </android.support.v7.widget.LinearLayoutCompat>
