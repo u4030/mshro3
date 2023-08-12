@@ -8,13 +8,13 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import android.widget.Toolbar
 import com.example.mizanalnasr.R
 import com.example.mizanalnasr.databinding.FragmentM5r6ahBinding
 import com.example.mizanalnasr.databinding.FragmentOutcomingBinding
@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.core.OrderBy
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
@@ -70,10 +69,7 @@ class OutcomingFragment : Fragment() {
 
     var startDateo =""
     var endDateo =""
-    var startDate_cal =""
-    var endtDate_cal=""
 
-    var name =""
     private lateinit var customDialogSE: Dialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,8 +84,6 @@ class OutcomingFragment : Fragment() {
             ViewModelProviders.of(this).get(IncomingViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        val toolbar = activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
-        toolbar?.setTitleTextAppearance(this.context, R.style.boldText)
 
         var osem_al9der =""
         var wa9f_al9ader =""
@@ -126,7 +120,8 @@ class OutcomingFragment : Fragment() {
                 autoCompleteTextView.threshold = 0
                 autoCompleteTextView.setAdapter(adapter)
 
-
+                val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
+                toolbar?.setTitleTextAppearance(this.context, R.style.boldText)
 
                 root.btn_new_9ader.setOnClickListener {
                     val ref = chatChannelsCollectionRef.document(channelId).collection("messages")
@@ -192,18 +187,13 @@ class OutcomingFragment : Fragment() {
                 }
                 root.dialog_search.setOnClickListener {
 
-                     customDialogSE = Dialog(activity!!)
+                    customDialogSE = Dialog(activity!!)
                     customDialogSE.setContentView(R.layout.search_dailog)
                     customDialogSE.setCancelable(false)
                     customDialogSE.window?.setLayout(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
                     )
-                    val adapter2 =
-                        ArrayAdapter(activity!!, android.R.layout.simple_spinner_dropdown_item, b59o9)
-                    val autoCompleteTextView2 = customDialogSE.search_out
-                    autoCompleteTextView2.threshold = 0
-                    autoCompleteTextView2.setAdapter(adapter2)
 
                     customDialogSE.btn_start_date.setOnClickListener {
                         // Create DatePickerDialog for start date
@@ -274,60 +264,91 @@ class OutcomingFragment : Fragment() {
                         customDialogSE.show()
                     }
 
+                    val adapter1 =
+                        ArrayAdapter(activity!!, android.R.layout.simple_spinner_dropdown_item, b59o9)
+                    val autoCompleteTextView1 = customDialogSE.findViewById<AutoCompleteTextView>(R.id.search_out)
+                    autoCompleteTextView1.threshold = 0
+                    autoCompleteTextView1.setAdapter(adapter1)
+
                     customDialogSE.search_name.setOnClickListener {
-            if (customDialogSE.tex_start_date.text.toString().isEmpty() && customDialogSE.tex_end_date.text.toString().isNotEmpty()){
-                Toast.makeText(
-                    requireContext(),
-                    "يجب تحديد الفترة الزمنية",
-                    Toast.LENGTH_LONG
-                ).show()
-                        }
-            else {
-                if (customDialogSE.tex_start_date.text.toString().isNotEmpty() && customDialogSE.tex_end_date.text.toString()
-                        .isEmpty()
-                ) {
-                    Toast.makeText(
-                        requireContext(),
-                        "يجب تحديد الفترة الزمنية",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-                        if (customDialogSE.tex_start_date.text.toString().isNotEmpty() && customDialogSE.tex_end_date.text.toString()
-                                .isNotEmpty()
-                        ) {
+                        if (customDialogSE.search_out.text.toString().isNotEmpty() &&
+                            customDialogSE.tex_start_date.text.toString().isNotEmpty() &&
+                            customDialogSE.tex_end_date.text.toString().isNotEmpty()    ) {
+                            val name = customDialogSE.search_out.text.toString()
+                            val dateFormat_start = SimpleDateFormat("yyy-MM-dd hh:mm")
+                            val date1 = startDateo
+                            val date_start = dateFormat_start.parse(date1)
+                            val startDate_cal = com.google.firebase.Timestamp(date_start)
+                            val dateFormat_end = SimpleDateFormat("yyy-MM-dd hh:mm:ss")
+                            val date2 = endDateo
+                            val date_end = dateFormat_end.parse(date2)
+                            val endtDate_cal = com.google.firebase.Timestamp(date_end)
+                            chatChannelsCollectionRef.document(channelId).collection("messages")
+                                .orderBy("date")
+                                .whereGreaterThanOrEqualTo("date", startDate_cal)
+                                .whereLessThanOrEqualTo("date", endtDate_cal)
+                                .whereEqualTo("name9ader", name)
+                                .get()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        total_solaf_mowazaf =0
+                                        for (i in task.result!!.documents) {
+                                            for ((key, value) in i.data!!) {
+                                                if (key.startsWith("qemet9ader")) {
+                                                    total_solaf_mowazaf += value.toString().toInt()
+                                                }
+                                            }
+                                            name_mowazaf =
+                                                i.toObject(Check9ader::class.java)!!.name9ader
+                                        }
+                                        toolbar?.title =
+                                            "مصروفات " + (name_mowazaf + " " + total_solaf_mowazaf.toString())
+                                    }
+                                }
                             getMessages(mCurrentChatChannelId,::initRecyclerView)
-                        }
-                        if (customDialogSE.tex_start_date.text.toString().isNotEmpty() && customDialogSE.tex_end_date.text.toString()
-                                .isNotEmpty() && customDialogSE.search_out.text.toString().isNotEmpty()
-                        ) {
-                            name = customDialogSE.search_out.text.toString()
-                            getMessages(mCurrentChatChannelId,::initRecyclerView)
+                            getTotaloutcoming(mCurrentChatChannelId)
                         }
                         else{
-                            if (customDialogSE.tex_start_date.text.toString().isEmpty() && customDialogSE.tex_end_date.text.toString()
-                                    .isNotEmpty() && customDialogSE.search_out.text.toString().isNotEmpty()
-                            ) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "يجب تحديد الفترة الزمنية",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                            if (customDialogSE.search_out.text.toString().isEmpty() &&
+                                customDialogSE.tex_start_date.text.toString().isNotEmpty() &&
+                                customDialogSE.tex_end_date.text.toString().isNotEmpty()    ) {
+                                val dateFormat_start = SimpleDateFormat("yyy-MM-dd hh:mm")
+                                val date1 = startDateo
+                                val date_start = dateFormat_start.parse(date1)
+                                val startDate_cal = com.google.firebase.Timestamp(date_start)
+                                val dateFormat_end = SimpleDateFormat("yyy-MM-dd hh:mm:ss")
+                                val date2 = endDateo
+                                val date_end = dateFormat_end.parse(date2)
+                                val endtDate_cal = com.google.firebase.Timestamp(date_end)
+                                chatChannelsCollectionRef.document(channelId).collection("messages")
+                                    .orderBy("date")
+                                    .whereGreaterThanOrEqualTo("date", startDate_cal)
+                                    .whereLessThanOrEqualTo("date", endtDate_cal)
+                                    .get()
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            total_solaf_mowazaf =0
+                                            for (i in task.result!!.documents) {
+                                                for ((key, value) in i.data!!) {
+                                                    if (key.startsWith("qemet9ader")) {
+                                                        total_solaf_mowazaf += value.toString()
+                                                            .toInt()
+                                                    }
+                                                }
+                                                name_mowazaf =
+                                                    i.toObject(Check9ader::class.java)!!.name9ader
+                                            }
+                                            toolbar?.title =
+                                                "مصروفات " + ( total_solaf_mowazaf.toString())
 
-                            if (customDialogSE.tex_start_date.text.toString().isNotEmpty() && customDialogSE.tex_end_date.text.toString()
-                                    .isEmpty() && customDialogSE.search_out.text.toString().isNotEmpty()
-                            ) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "يجب تحديد الفترة الزمنية",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                        }
+                                    }
                             }
-
+                            getMessages(mCurrentChatChannelId,::initRecyclerView)
+                            getTotaloutcoming(mCurrentChatChannelId)
                         }
 
-//                        customDialogSE.dismiss()
+                        customDialogSE.dismiss()
                     }
 //                    startDateo =""
 //                    endDateo =""
@@ -364,57 +385,44 @@ class OutcomingFragment : Fragment() {
     val endtDate = com.google.firebase.Timestamp(lasttoday_parse)
 
     private fun getTotaloutcoming(channelId: String) {
+        totalQuantityOutcoming=0
 
-        if (customDialogSE.tex_start_date.text.toString().isNotEmpty() && customDialogSE.tex_end_date.text.toString()
-                .isNotEmpty()){
+        if (customDialogSE.search_out.text.toString().isNotEmpty() &&
+            customDialogSE.tex_start_date.text.toString().isNotEmpty() &&
+            customDialogSE.tex_end_date.text.toString().isNotEmpty()    ) {
+            val name = customDialogSE.search_out.text.toString()
             val dateFormat_start = SimpleDateFormat("yyy-MM-dd hh:mm")
             val date1 = startDateo
             val date_start = dateFormat_start.parse(date1)
-            startDate_cal = com.google.firebase.Timestamp(date_start).toString()
+            val startDate_cal = com.google.firebase.Timestamp(date_start)
             val dateFormat_end = SimpleDateFormat("yyy-MM-dd hh:mm:ss")
             val date2 = endDateo
             val date_end = dateFormat_end.parse(date2)
-            endtDate_cal = com.google.firebase.Timestamp(date_end).toString()
+            val endtDate_cal = com.google.firebase.Timestamp(date_end)
             chatChannelsCollectionRef.document(channelId).collection("messages")
                 .orderBy("date")
-                .startAt(startDate_cal).endAt(endtDate_cal)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        for (i in task.result!!.documents) {
-                            if (i.toObject(Check9ader::class.java)!!.qemet9ader1.isNotEmpty()) {
-                                total_solaf_mowazaf += i.toObject(Check9ader::class.java)!!.qemet9ader1.toInt()
-                                name_mowazaf = i.toObject(Check9ader::class.java)!!.name9ader
-                            }
-                        }
-                        toolbar?.title = "الصادر لهذه الفترة " + (total_solaf_mowazaf.toString())
-                    }
-                }
-        }
-
-        if (customDialogSE.tex_start_date.text.toString().isNotEmpty() && customDialogSE.tex_end_date.text.toString().isNotEmpty()
-            && customDialogSE.search_out.text.toString().isNotEmpty()){
-            chatChannelsCollectionRef.document(channelId).collection("messages")
-                .whereEqualTo("name9ader", name)
                 .whereGreaterThanOrEqualTo("date", startDate_cal)
                 .whereLessThanOrEqualTo("date", endtDate_cal)
+                .whereEqualTo("name9ader", name)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        total_solaf_mowazaf =0
                         for (i in task.result!!.documents) {
-                            if (i.toObject(Check9ader::class.java)!!.qemet9ader1.isNotEmpty()) {
-                                total_solaf_mowazaf += i.toObject(Check9ader::class.java)!!.qemet9ader1.toInt()
-                                name_mowazaf = i.toObject(Check9ader::class.java)!!.name9ader
+                            for ((key, value) in i.data!!) {
+                                if (key.startsWith("qemet9ader")) {
+                                    total_solaf_mowazaf += value.toString().toInt()
+                                }
                             }
+                            name_mowazaf =
+                                i.toObject(Check9ader::class.java)!!.name9ader
                         }
                         toolbar?.title =
-                            "مجموع مصروفات " + name_mowazaf + " " + (total_solaf_mowazaf.toString())
+                            "مصروفات " + (name_mowazaf + " " + total_solaf_mowazaf.toString())
                     }
                 }
-
         }
         else {
-            totalQuantityOutcoming = 0
             chatChannelsCollectionRef.document(channelId).collection("messages")
                 .orderBy("date")
                 .startAt(startDate).endAt(endtDate)
@@ -436,7 +444,6 @@ class OutcomingFragment : Fragment() {
                     }
 
     private fun getTotalincoming(channelId1: String) {
-
         totalQuantityincoming=0
         chatChannelsCollectionRef.document(channelId1).collection("messages")
             .orderBy("date")
@@ -512,44 +519,22 @@ class OutcomingFragment : Fragment() {
             }
     }
 
-    private fun getMessages(channelId:String, onListen1: (List<Item>) -> Unit): ListenerRegistration {
-        if (customDialogSE.tex_start_date.text.toString().isNotEmpty() && customDialogSE.tex_end_date.text.toString()
-                .isNotEmpty()){
+    private fun getMessages(channelId:String, onListen: (List<Item>) -> Unit): ListenerRegistration {
+
+        if (customDialogSE.search_out.text.toString().isNotEmpty() &&
+            customDialogSE.tex_start_date.text.toString().isNotEmpty() &&
+            customDialogSE.tex_end_date.text.toString().isNotEmpty()
+        ) {
+            val name = customDialogSE.search_out.text.toString()
             val dateFormat_start = SimpleDateFormat("yyy-MM-dd hh:mm")
             val date1 = startDateo
             val date_start = dateFormat_start.parse(date1)
-            startDate_cal = com.google.firebase.Timestamp(date_start).toString()
+            val startDate_cal = com.google.firebase.Timestamp(date_start)
             val dateFormat_end = SimpleDateFormat("yyy-MM-dd hh:mm:ss")
             val date2 = endDateo
             val date_end = dateFormat_end.parse(date2)
-            endtDate_cal = com.google.firebase.Timestamp(date_end).toString()
+            val endtDate_cal = com.google.firebase.Timestamp(date_end)
             return chatChannelsCollectionRef.document(channelId).collection("messages")
-                .orderBy("date")
-                .startAt(startDate_cal).endAt(endtDate_cal)
-                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                    if (firebaseFirestoreException != null) {
-                        return@addSnapshotListener
-                    }
-                    val items = mutableListOf<Item>()
-                    querySnapshot!!.documents.forEach { document ->
-                        items.add(
-                            ShowData9ader(
-                                document.id,
-                                document.toObject(Check9ader::class.java)!!,
-                                this.context!!
-                            )
-                        )
-                    }
-                    onListen1(items)
-                }
-        }
-
-         if (customDialogSE.tex_start_date.text.toString()
-                .isNotEmpty() && customDialogSE.tex_end_date.text.toString()
-                .isNotEmpty()
-            && customDialogSE.search_out.text.toString().isNotEmpty()
-        ) {
-             return chatChannelsCollectionRef.document(channelId).collection("messages")
                 .whereEqualTo("name9ader", name)
                 .whereGreaterThanOrEqualTo("date", startDate_cal)
                 .whereLessThanOrEqualTo("date", endtDate_cal)
@@ -567,12 +552,27 @@ class OutcomingFragment : Fragment() {
                             )
                         )
                     }
-                    onListen1(items)
+                    onListen(items)
                 }
-        } else {
+
+        }
+
+        if (customDialogSE.search_out.text.toString().isEmpty() &&
+            customDialogSE.tex_start_date.text.toString().isNotEmpty() &&
+            customDialogSE.tex_end_date.text.toString().isNotEmpty()
+        ) {
+            val dateFormat_start = SimpleDateFormat("yyy-MM-dd hh:mm")
+            val date1 = startDateo
+            val date_start = dateFormat_start.parse(date1)
+            val startDate_cal = com.google.firebase.Timestamp(date_start)
+            val dateFormat_end = SimpleDateFormat("yyy-MM-dd hh:mm:ss")
+            val date2 = endDateo
+            val date_end = dateFormat_end.parse(date2)
+            val endtDate_cal = com.google.firebase.Timestamp(date_end)
             return chatChannelsCollectionRef.document(channelId).collection("messages")
                 .orderBy("date")
-                .startAt(startDate).endAt(endtDate)
+                .whereGreaterThanOrEqualTo("date", startDate_cal)
+                .whereLessThanOrEqualTo("date", endtDate_cal)
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (firebaseFirestoreException != null) {
                         return@addSnapshotListener
@@ -587,11 +587,33 @@ class OutcomingFragment : Fragment() {
                             )
                         )
                     }
-                    onListen1(items)
+                    onListen(items)
                 }
         }
-    }
 
+            else {
+
+                return chatChannelsCollectionRef.document(channelId).collection("messages")
+                    .orderBy("date")
+                    .startAt(startDate).endAt(endtDate)
+                    .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                        if (firebaseFirestoreException != null) {
+                            return@addSnapshotListener
+                        }
+                        val items = mutableListOf<Item>()
+                        querySnapshot!!.documents.forEach { document ->
+                            items.add(
+                                ShowData9ader(
+                                    document.id,
+                                    document.toObject(Check9ader::class.java)!!,
+                                    this.context!!
+                                )
+                            )
+                        }
+                        onListen(items)
+                    }
+            }
+    }
     private fun initRecyclerView(item: List<Item>) {
         recyclorder9ader.apply {
             addItemDecoration(
