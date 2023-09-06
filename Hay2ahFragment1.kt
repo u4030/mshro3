@@ -10,19 +10,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import com.example.markizalhadidi.R
 import com.example.markizalhadidi.databinding.FragmentHay2ah1Binding
+import com.example.markizalhadidi.databinding.R2syet2ksDailogBinding
 
 class  Hay2ahFragment1 : Fragment() {
 
     private var _binding: FragmentHay2ah1Binding? = null
     private val binding get() = _binding!!
+
+    private lateinit var hy2ahModel: Hay2ahViewModel
 
     private lateinit var customDialogFB_paying: Dialog
     private lateinit var customDialogMZ: Dialog
@@ -37,12 +38,12 @@ class  Hay2ahFragment1 : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        hy2ahModel =
+            ViewModelProvider(this).get(Hay2ahViewModel::class.java)
 
         _binding = FragmentHay2ah1Binding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        val bindingR2 = R2syet2ksDailogBinding.inflate(layoutInflater)
         customDialogFB_paying = Dialog(activity!!)
         customDialogFB_paying.setContentView(R.layout.paying_dailog)
         customDialogFB_paying.setCancelable(false)
@@ -68,8 +69,9 @@ class  Hay2ahFragment1 : Fragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT)
         customDialogF79.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
 
-        customDialogR2SX = Dialog(activity!!)
-        customDialogR2SX.setContentView(R.layout.r2syet_2ks_dailog)
+
+        customDialogR2SX = Dialog(requireContext())
+        customDialogR2SX.setContentView(bindingR2.root)
         customDialogR2SX.setCancelable(false)
         customDialogR2SX.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -128,76 +130,76 @@ class  Hay2ahFragment1 : Fragment() {
 
         binding.ch3.setOnCheckedChangeListener { _, isChecked ->
             if (binding.ch3.isChecked) {
-                customDialogR2SX.tit_r2s_out.text = "خارجية"
-                customDialogR2SX.tit_r2s_in.text = "داخلية"
-                customDialogR2SX.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
+                bindingR2.titR2sOut.text = "خارجية"
+                bindingR2.titR2sIn.text = "داخلية"
+                bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
 
-                    if (customDialogR2SX.outsideright.isChecked) {
+                    if (bindingR2.outsideright.isChecked) {
                         binding.ch3.text = "راسية اكس خارجية يمين"
                     }else{binding.ch3.text = "راسية اكس"
-                        customDialogR2SX.s3er_r2s_acx.setText("")}
+                        bindingR2.s3erR2sAcx.setText("")}
 
-                    if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                    if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                         binding.ch3.text = "تغير جميع الرأسيات الخارجية و الداخلية"
-                        customDialogR2SX.s3er_r2s_acx.setText("40")
+                        bindingR2.s3erR2sAcx.setText("40")
                     } else {
-                        if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked) {
+                        if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked) {
                             binding.ch3.text = "راسيتين اكس خارجية و الداخلية يمين"
-                            customDialogR2SX.s3er_r2s_acx.setText("30")
+                            bindingR2.s3erR2sAcx.setText("30")
                         }else {
-                            if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideleft.isChecked) {
+                            if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideleft.isChecked) {
                                 binding.ch3.text = "راسيتين اكس خارجية و الداخلية يسار"
-                                customDialogR2SX.s3er_r2s_acx.setText("30")
+                                bindingR2.s3erR2sAcx.setText("30")
                             }else {
-                                if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                if (bindingR2.outsideright.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                                     binding.ch3.text = "راسية اكس خارجية يمين و الداخليتين"
-                                    customDialogR2SX.s3er_r2s_acx.setText("30")
+                                    bindingR2.s3erR2sAcx.setText("30")
                                 }else {
-                                    if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                    if (bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                                         binding.ch3.text = "راسية اكس خارجية يسار و الداخليتين"
-                                        customDialogR2SX.s3er_r2s_acx.setText("30")
+                                        bindingR2.s3erR2sAcx.setText("30")
                                     }else {
-                                        if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked) {
+                                        if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked) {
                                             binding.ch3.text = "راسية اكس خارجية يمين و يسار"
-                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                            bindingR2.s3erR2sAcx.setText("20")
                                         }else {
-                                            if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideright.isChecked) {
+                                            if (bindingR2.outsideright.isChecked && bindingR2.insideright.isChecked) {
                                                 binding.ch3.text = "راسية اكس خارجية يمين و داخلية يمين"
-                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                bindingR2.s3erR2sAcx.setText("20")
                                             }else {
-                                                if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                if (bindingR2.outsideright.isChecked && bindingR2.insideleft.isChecked) {
                                                     binding.ch3.text = "راسية اكس خارجية يمين و داخلية يسار"
-                                                    customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                    bindingR2.s3erR2sAcx.setText("20")
                                                 }else {
-                                                    if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked) {
+                                                    if (bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked) {
                                                         binding.ch3.text = "راسية اكس خارجية يسار و داخلية يمين"
-                                                        customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                        bindingR2.s3erR2sAcx.setText("20")
                                                     }else {
-                                                        if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                        if (bindingR2.outsideleft.isChecked && bindingR2.insideleft.isChecked) {
                                                             binding.ch3.text = "راسية اكس خارجية يسار و داخلية يسار"
-                                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                            bindingR2.s3erR2sAcx.setText("20")
                                                         }else {
-                                                            if (customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                            if (bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                                                                 binding.ch3.text = "راسية اكس داخلية يمين و يسار"
-                                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                                bindingR2.s3erR2sAcx.setText("20")
                                                             } else {
 
-                                                                if (customDialogR2SX.outsideright.isChecked) {
+                                                                if (bindingR2.outsideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.outsideleft.isChecked) {
+                                                                if (bindingR2.outsideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
 
-                                                                if (customDialogR2SX.insideleft.isChecked) {
+                                                                if (bindingR2.insideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.insideright.isChecked) {
+                                                                if (bindingR2.insideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
                                                             }
                                                         }
@@ -205,75 +207,75 @@ class  Hay2ahFragment1 : Fragment() {
                     customDialogR2SX.show()
                 }
 
-                customDialogR2SX.outsideleft.setOnCheckedChangeListener { _, isChecked2 ->
-                    if (customDialogR2SX.outsideleft.isChecked) {
+                bindingR2.outsideleft.setOnCheckedChangeListener { _, isChecked2 ->
+                    if (bindingR2.outsideleft.isChecked) {
                         binding.ch3.text = "راسية اكس خارجية يسار"
                     }else{binding.ch3.text = "راسية اكس"
-                        customDialogR2SX.s3er_r2s_acx.setText("")}
+                        bindingR2.s3erR2sAcx.setText("")}
 
-                    if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                    if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked ) {
                         binding.ch3.text = "تغير جميع الرأسيات الخارجية و الداخلية"
-                        customDialogR2SX.s3er_r2s_acx.setText("40")
+                        bindingR2.s3erR2sAcx.setText("40")
                     }else{
-                        if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideright.isChecked ) {
+                        if (bindingR2.outsideleft.isChecked && bindingR2.outsideright.isChecked && bindingR2.insideright.isChecked ) {
                             binding.ch3.text = "راسيتين اكس خارجية و الداخلية يمين"
-                            customDialogR2SX.s3er_r2s_acx.setText("30")
+                            bindingR2.s3erR2sAcx.setText("30")
                         }else{
-                            if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                            if (bindingR2.outsideleft.isChecked && bindingR2.outsideright.isChecked && bindingR2.insideleft.isChecked ) {
                                 binding.ch3.text = "راسيتين اكس خارجية و الداخلية يسار"
-                                customDialogR2SX.s3er_r2s_acx.setText("30")
+                                bindingR2.s3erR2sAcx.setText("30")
                             }else{
-                                if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                                if (bindingR2.outsideright.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked ) {
                                     binding.ch3.text = "راسية اكس خارجية يمين و الداخليتين"
-                                    customDialogR2SX.s3er_r2s_acx.setText("30")
+                                    bindingR2.s3erR2sAcx.setText("30")
                                 }else{
-                                    if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                                    if (bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked ) {
                                         binding.ch3.text = "راسية اكس خارجية يسار و الداخليتين"
-                                        customDialogR2SX.s3er_r2s_acx.setText("30")
+                                        bindingR2.s3erR2sAcx.setText("30")
                                     }else{
 //                                else {
-                                        if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.outsideright.isChecked) {
+                                        if (bindingR2.outsideleft.isChecked && bindingR2.outsideright.isChecked) {
                                             binding.ch3.text = "راسية اكس خارجية يمين و يسار"
-                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                            bindingR2.s3erR2sAcx.setText("20")
                                         }else{
-                                            if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideright.isChecked) {
+                                            if (bindingR2.outsideright.isChecked && bindingR2.insideright.isChecked) {
                                                 binding.ch3.text = "راسية اكس خارجية يمين و داخلية يمين"
-                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                bindingR2.s3erR2sAcx.setText("20")
                                             }else{
-                                                if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                if (bindingR2.outsideright.isChecked && bindingR2.insideleft.isChecked) {
                                                     binding.ch3.text = "راسية اكس خارجية يمين و داخلية يسار"
-                                                    customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                    bindingR2.s3erR2sAcx.setText("20")
                                                 }else{
-                                                    if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked) {
+                                                    if (bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked) {
                                                         binding.ch3.text = "راسية اكس خارجية يسار و داخلية يمين"
-                                                        customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                        bindingR2.s3erR2sAcx.setText("20")
                                                     }else{
-                                                        if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                        if (bindingR2.outsideleft.isChecked && bindingR2.insideleft.isChecked) {
                                                             binding.ch3.text = "راسية اكس خارجية يسار و داخلية يسار"
-                                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                            bindingR2.s3erR2sAcx.setText("20")
                                                         }else{
-                                                            if (customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                            if (bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                                                                 binding.ch3.text = "راسية اكس داخلية يمين و يسار"
-                                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                                bindingR2.s3erR2sAcx.setText("20")
                                                             } else {
 
-                                                                if (customDialogR2SX.outsideleft.isChecked) {
+                                                                if (bindingR2.outsideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
 
-                                                                if (customDialogR2SX.outsideright.isChecked) {
+                                                                if (bindingR2.outsideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
 
-                                                                if (customDialogR2SX.insideleft.isChecked) {
+                                                                if (bindingR2.insideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.insideright.isChecked) {
+                                                                if (bindingR2.insideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
                                                             }
                                                         }
@@ -283,72 +285,72 @@ class  Hay2ahFragment1 : Fragment() {
 
 
 
-                customDialogR2SX.insideleft.setOnCheckedChangeListener { _, isChecked2 ->
-                    if (customDialogR2SX.insideleft.isChecked) {
+                bindingR2.insideleft.setOnCheckedChangeListener { _, isChecked2 ->
+                    if (bindingR2.insideleft.isChecked) {
                         binding.ch3.text = "راسية اكس داخلية يسار"
                     }else{binding.ch3.text = "راسية اكس"
-                        customDialogR2SX.s3er_r2s_acx.setText("")}
+                        bindingR2.s3erR2sAcx.setText("")}
 
-                    if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                    if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked ) {
                         binding.ch3.text = "تغير جميع الرأسيات الخارجية و الداخلية"
-                        customDialogR2SX.s3er_r2s_acx.setText("40")
+                        bindingR2.s3erR2sAcx.setText("40")
                     }else {
-                        if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked ) {
+                        if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked ) {
                             binding.ch3.text = "راسيتين اكس خارجية و الداخلية يمين"
-                            customDialogR2SX.s3er_r2s_acx.setText("30")
+                            bindingR2.s3erR2sAcx.setText("30")
                         }else {
-                            if (customDialogR2SX.insideleft.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.outsideright.isChecked) {
+                            if (bindingR2.insideleft.isChecked && bindingR2.outsideleft.isChecked && bindingR2.outsideright.isChecked) {
                                 binding.ch3.text = "راسيتين اكس خارجية و الداخلية يسار"
-                                customDialogR2SX.s3er_r2s_acx.setText("30")
+                                bindingR2.s3erR2sAcx.setText("30")
                             }else {
-                                if (customDialogR2SX.insideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.outsideright.isChecked) {
+                                if (bindingR2.insideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.outsideright.isChecked) {
                                     binding.ch3.text = "راسية اكس خارجية يمين و الداخليتين"
-                                    customDialogR2SX.s3er_r2s_acx.setText("30")
+                                    bindingR2.s3erR2sAcx.setText("30")
                                 }else {
-                                    if (customDialogR2SX.insideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.outsideleft.isChecked) {
+                                    if (bindingR2.insideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.outsideleft.isChecked) {
                                         binding.ch3.text = "راسية اكس خارجية يسار و الداخليتين"
-                                        customDialogR2SX.s3er_r2s_acx.setText("30")
+                                        bindingR2.s3erR2sAcx.setText("30")
                                     }else {
-                                        if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked) {
+                                        if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked) {
                                             binding.ch3.text = "راسية اكس خارجية يمين و يسار"
-                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                            bindingR2.s3erR2sAcx.setText("20")
                                         }else {
-                                            if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideright.isChecked) {
+                                            if (bindingR2.outsideright.isChecked && bindingR2.insideright.isChecked) {
                                                 binding.ch3.text = "راسية اكس خارجية يمين و داخلية يمين"
-                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                bindingR2.s3erR2sAcx.setText("20")
                                             }else {
-                                                if (customDialogR2SX.insideleft.isChecked && customDialogR2SX.outsideright.isChecked) {
+                                                if (bindingR2.insideleft.isChecked && bindingR2.outsideright.isChecked) {
                                                     binding.ch3.text = "راسية اكس خارجية يمين و داخلية يسار"
-                                                    customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                    bindingR2.s3erR2sAcx.setText("20")
                                                 }else {
-                                                    if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked) {
+                                                    if (bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked) {
                                                         binding.ch3.text = "راسية اكس خارجية يسار و داخلية يمين"
-                                                        customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                        bindingR2.s3erR2sAcx.setText("20")
                                                     }else {
-                                                        if (customDialogR2SX.insideleft.isChecked && customDialogR2SX.outsideleft.isChecked) {
+                                                        if (bindingR2.insideleft.isChecked && bindingR2.outsideleft.isChecked) {
                                                             binding.ch3.text = "راسية اكس خارجية يسار و داخلية يسار"
-                                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                            bindingR2.s3erR2sAcx.setText("20")
                                                         }else {
-                                                            if (customDialogR2SX.insideleft.isChecked && customDialogR2SX.insideright.isChecked) {
+                                                            if (bindingR2.insideleft.isChecked && bindingR2.insideright.isChecked) {
                                                                 binding.ch3.text = "راسية اكس داخلية يمين و يسار"
-                                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                                bindingR2.s3erR2sAcx.setText("20")
                                                             } else {
-                                                                if (customDialogR2SX.insideright.isChecked) {
+                                                                if (bindingR2.insideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.outsideright.isChecked) {
+                                                                if (bindingR2.outsideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.outsideleft.isChecked) {
+                                                                if (bindingR2.outsideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
 
-                                                                if (customDialogR2SX.insideleft.isChecked) {
+                                                                if (bindingR2.insideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
                                                             }
                                                         }
@@ -357,71 +359,71 @@ class  Hay2ahFragment1 : Fragment() {
                     customDialogR2SX.show()
                 }
 
-                customDialogR2SX.insideright.setOnCheckedChangeListener { _, isChecked2 ->
-                    if (customDialogR2SX.insideright.isChecked) {
+                bindingR2.insideright.setOnCheckedChangeListener { _, isChecked2 ->
+                    if (bindingR2.insideright.isChecked) {
                         binding.ch3.text = "راسية اكس داخلية يمين"
                     }else{binding.ch3.text = "راسية اكس"
-                        customDialogR2SX.s3er_r2s_acx.setText("")}
+                        bindingR2.s3erR2sAcx.setText("")}
 
-                    if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                    if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked ) {
                         binding.ch3.text = "تغير جميع الرأسيات الخارجية و الداخلية"
-                        customDialogR2SX.s3er_r2s_acx.setText("40")
+                        bindingR2.s3erR2sAcx.setText("40")
                     }else{
-                        if (customDialogR2SX.insideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.outsideright.isChecked ) {
+                        if (bindingR2.insideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.outsideright.isChecked ) {
                             binding.ch3.text = "راسيتين اكس خارجية و الداخلية يمين"
-                            customDialogR2SX.s3er_r2s_acx.setText("30")
+                            bindingR2.s3erR2sAcx.setText("30")
                         }else {
-                            if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                            if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideleft.isChecked ) {
                                 binding.ch3.text = "راسيتين اكس خارجية و الداخلية يسار"
-                                customDialogR2SX.s3er_r2s_acx.setText("30")
+                                bindingR2.s3erR2sAcx.setText("30")
                             }else {
-                                if (customDialogR2SX.insideright.isChecked && customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                                if (bindingR2.insideright.isChecked && bindingR2.outsideright.isChecked && bindingR2.insideleft.isChecked ) {
                                     binding.ch3.text = "راسية اكس خارجية يمين و الداخليتين"
-                                    customDialogR2SX.s3er_r2s_acx.setText("30")
+                                    bindingR2.s3erR2sAcx.setText("30")
                                 }else {
-                                    if (customDialogR2SX.insideright.isChecked && customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                                    if (bindingR2.insideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideleft.isChecked ) {
                                         binding.ch3.text = "راسية اكس خارجية يسار و الداخليتين"
-                                        customDialogR2SX.s3er_r2s_acx.setText("30")
+                                        bindingR2.s3erR2sAcx.setText("30")
                                     }else {
-                                        if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.outsideleft.isChecked ) {
+                                        if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked ) {
                                             binding.ch3.text = "راسية اكس خارجية يمين و يسار"
-                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                            bindingR2.s3erR2sAcx.setText("20")
                                         }else {
-                                            if (customDialogR2SX.insideright.isChecked && customDialogR2SX.outsideright.isChecked ) {
+                                            if (bindingR2.insideright.isChecked && bindingR2.outsideright.isChecked ) {
                                                 binding.ch3.text = "راسية اكس خارجية يمين و داخلية يمين"
-                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                bindingR2.s3erR2sAcx.setText("20")
                                             }else {
-                                                if (customDialogR2SX.outsideright.isChecked && customDialogR2SX.insideleft.isChecked ) {
+                                                if (bindingR2.outsideright.isChecked && bindingR2.insideleft.isChecked ) {
                                                     binding.ch3.text = "راسية اكس خارجية يمين و داخلية يسار"
-                                                    customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                    bindingR2.s3erR2sAcx.setText("20")
                                                 }else {
-                                                    if (customDialogR2SX.insideright.isChecked && customDialogR2SX.outsideleft.isChecked) {
+                                                    if (bindingR2.insideright.isChecked && bindingR2.outsideleft.isChecked) {
                                                         binding.ch3.text = "راسية اكس خارجية يسار و داخلية يمين"
-                                                        customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                        bindingR2.s3erR2sAcx.setText("20")
                                                     }else {
-                                                        if (customDialogR2SX.outsideleft.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                        if (bindingR2.outsideleft.isChecked && bindingR2.insideleft.isChecked) {
                                                             binding.ch3.text = "راسية اكس خارجية يسار و داخلية يسار"
-                                                            customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                            bindingR2.s3erR2sAcx.setText("20")
                                                         }else {
-                                                            if (customDialogR2SX.insideright.isChecked && customDialogR2SX.insideleft.isChecked) {
+                                                            if (bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                                                                 binding.ch3.text = "راسية اكس داخلية يمين و يسار"
-                                                                customDialogR2SX.s3er_r2s_acx.setText("20")
+                                                                bindingR2.s3erR2sAcx.setText("20")
                                                             } else {
-                                                                if (customDialogR2SX.insideright.isChecked) {
+                                                                if (bindingR2.insideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.insideleft.isChecked) {
+                                                                if (bindingR2.insideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس داخلية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.outsideleft.isChecked) {
+                                                                if (bindingR2.outsideleft.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يسار"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
-                                                                if (customDialogR2SX.outsideright.isChecked) {
+                                                                if (bindingR2.outsideright.isChecked) {
                                                                     binding.ch3.text = "راسية اكس خارجية يمين"
-                                                                    customDialogR2SX.s3er_r2s_acx.setText("10")
+                                                                    bindingR2.s3erR2sAcx.setText("10")
                                                                 }
                                                             }
                                                         }
@@ -430,44 +432,44 @@ class  Hay2ahFragment1 : Fragment() {
                 }
 
 
-                customDialogR2SX.btn_r2s_sav.setOnClickListener {
-                    if (!customDialogR2SX.outsideright.isChecked && !customDialogR2SX.outsideleft.isChecked
-                        && !customDialogR2SX.insideright.isChecked && !customDialogR2SX.insideleft.isChecked ) {
+                bindingR2.btnR2sSav.setOnClickListener {
+                    if (!bindingR2.outsideright.isChecked && !bindingR2.outsideleft.isChecked
+                        && !bindingR2.insideright.isChecked && !bindingR2.insideleft.isChecked ) {
                         toast_notempty1.show()}else{
-                        if (customDialogR2SX.s3er_r2s_acx.text.toString().trim().isEmpty()){
+                        if (bindingR2.s3erR2sAcx.text.toString().trim().isEmpty()){
                             toast_notempty.show()
                         }else{
-                            editTextNumber3.text=customDialogR2SX.s3er_r2s_acx.text.toString()
-                            viewModel.totalAmount += editTextNumber3.text.toString().toInt()
-                            toolbar?.title =  viewModel.totalAmount.toString()
-                            homeModel.checkname3 = binding.ch3.text.toString().trim()
-                            homeModel.editname3 = editTextNumber3.text.toString().trim()
+                            binding.pric3.text=bindingR2.s3erR2sAcx.text.toString()
+                            hy2ahModel.totalAmount += binding.pric3.text.toString().toInt()
+                            toolbar?.title =  hy2ahModel.totalAmount.toString()
+                            hy2ahModel.ch1 = binding.ch3.text.toString().trim()
+                            hy2ahModel.pric3 = binding.pric3.text.toString().trim()
                             customDialogR2SX.dismiss()
                         }
                     }
                 }
-                customDialogR2SX.btn_r2s_can.setOnClickListener {
-                    if (editTextNumber3.text.toString().isEmpty()) {
+                bindingR2.btnR2sCan.setOnClickListener {
+                    if (binding.pric3.text.toString().isEmpty()) {
                         binding.ch3.text = "راسية اكس"
                         binding.ch3.isChecked = false
                     }
 
                     customDialogR2SX.dismiss()
                 }
-                customDialogR2SX.outsideright.isChecked = false
-                customDialogR2SX.outsideleft.isChecked = false
-                customDialogR2SX.insideright.isChecked = false
-                customDialogR2SX.insideleft.isChecked = false
+                bindingR2.outsideright.isChecked = false
+                bindingR2.outsideleft.isChecked = false
+                bindingR2.insideright.isChecked = false
+                bindingR2.insideleft.isChecked = false
                 customDialogR2SX.show()
 
             } else {
-                if (editTextNumber3.text.toString().isNotEmpty()) {
-                    viewModel.totalAmount -= editTextNumber3.text.toString().toInt()
-                    toolbar?.title =  viewModel.totalAmount.toString()
+                if (binding.pric3.text.toString().isNotEmpty()) {
+                    hy2ahModel.totalAmount -= binding.pric3.text.toString().toInt()
+                    toolbar?.title =  hy2ahModel.totalAmount.toString()
                     binding.ch3.text = "راسية اكس"
-                    editTextNumber3.text = ""
-                    homeModel.checkname3 =  ""
-                    homeModel.editname3 =  ""
+                    binding.pric3.text = ""
+                    hy2ahModel.ch1 =  ""
+                    hy2ahModel.pric3 =  ""
                 }else{binding.ch3.text = "راسية اكس"}
             }
         }
