@@ -15,6 +15,7 @@ import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.markizalhadidi.R
+import com.example.markizalhadidi.databinding.ActivityMainBinding
 import com.example.markizalhadidi.databinding.FragmentHay2ah1Binding
 import com.example.markizalhadidi.databinding.R2syet2ksDailogBinding
 
@@ -22,6 +23,8 @@ class  Hay2ahFragment1 : Fragment() {
 
     private var _binding: FragmentHay2ah1Binding? = null
     private val binding get() = _binding!!
+
+    private lateinit var bindingtoolbar: ActivityMainBinding
 
     private lateinit var hy2ahModel: Hay2ahViewModel
 
@@ -43,6 +46,9 @@ class  Hay2ahFragment1 : Fragment() {
 
         _binding = FragmentHay2ah1Binding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        bindingtoolbar = ActivityMainBinding.inflate(layoutInflater)
+
         val bindingR2 = R2syet2ksDailogBinding.inflate(layoutInflater)
         customDialogFB_paying = Dialog(activity!!)
         customDialogFB_paying.setContentView(R.layout.paying_dailog)
@@ -124,7 +130,7 @@ class  Hay2ahFragment1 : Fragment() {
         )
         val toast_notempty1 = Toast.makeText(context, spannableString1, Toast.LENGTH_SHORT)
 
-        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = bindingtoolbar.appBarMain.toolbar
         toolbar?.setTitleTextAppearance(this.context, R.style.boldText)
 
 
@@ -441,7 +447,7 @@ class  Hay2ahFragment1 : Fragment() {
                         }else{
                             binding.pric3.text=bindingR2.s3erR2sAcx.text.toString()
                             hy2ahModel.totalAmount += binding.pric3.text.toString().toInt()
-                            toolbar?.title =  hy2ahModel.totalAmount.toString()
+                            toolbar.title =  "hy2ahModel.totalAmount.toString()"
                             hy2ahModel.ch1 = binding.ch3.text.toString().trim()
                             hy2ahModel.pric3 = binding.pric3.text.toString().trim()
                             customDialogR2SX.dismiss()
@@ -465,7 +471,7 @@ class  Hay2ahFragment1 : Fragment() {
             } else {
                 if (binding.pric3.text.toString().isNotEmpty()) {
                     hy2ahModel.totalAmount -= binding.pric3.text.toString().toInt()
-                    toolbar?.title =  hy2ahModel.totalAmount.toString()
+                    toolbar.title =  hy2ahModel.totalAmount.toString()
                     binding.ch3.text = "راسية اكس"
                     binding.pric3.text = ""
                     hy2ahModel.ch1 =  ""
