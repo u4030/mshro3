@@ -50,16 +50,6 @@ class Mo7arekFragment : Fragment() {
         val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setTitleTextAppearance(this.context, R.style.boldText)
 
-
-//        binding.savemo7arek.setOnClickListener {
-//            val aa = "sdas"
-//            val map = HashMap<String, String>()
-//            map["key"] = aa
-//            chatChannelsCollectionRef.document("0NA6NYGueVxXMZbTvf37").collection("messages")
-//                .document("hd3XmBTcIwS5yLotIuic")
-//                .set(map)
-//        }
-
         val editTextList = mutableListOf<EditText>()
         val checkBoxList = mutableListOf<CheckBox>()
 
@@ -92,86 +82,52 @@ class Mo7arekFragment : Fragment() {
                                 show()
                             }
                         } else {
+
                             var allEditTextsFilled = true
                             var allCheckBoxesChecked = true
                             val editTextValues = mutableListOf<String>()
                             val checkBoxValues = mutableListOf<String>()
                             val contentMessage2 = mutableMapOf<String, Any>()
-//                        for (i in 0 until editTextList.size) {
-//                            if (editTextList[i].text.isEmpty()) {
-//                                allEditTextsFilled = false
-//                                break
-//                            } else {
-//                                editTextValues.add(editTextList[i].text.toString())
-//                            }
-//                        }
-//
-//                        for (i in 0 until checkBoxList.size) {
-//                            if (!checkBoxList[i].isChecked) {
-//                                allCheckBoxesChecked = false
-//                                break
-//                            }
-//                        }
-//
-//                        if (allEditTextsFilled && allCheckBoxesChecked) {
-//                            for (i in 0 until editTextValues.size) {
-//                                val variableName = "pricmo7arek${i + 1}"
-//                                val variableValue = editTextValues[i]
-//                                // Do something with the variable name and value, such as storing them in a map.
-//                            }
-//
-//                            for (i in 0 until checkBoxList.size) {
-//                                val variableName = "chmo7arek${i + 1}"
-//                                val variableValue = checkBoxList[i].isChecked.toString()
-//                                // Do something with the variable name and value, such as storing them in a map.
-//
-//                            }
-                            for (i in 0 until editTextList.size) {
-                                if (editTextList[i].text.isEmpty()) {
-                                    allEditTextsFilled = false
-                                } else {
-                                    editTextValues.add(editTextList[i].text.toString())
-                                }
+
+                        for (i in 0 until editTextList.size) {
+                            if (editTextList[i].text.isEmpty()) {
+                                allEditTextsFilled = false
+                                break
+                            } else {
+                                editTextValues.add(editTextList[i].text.toString())
                             }
+                        }
 
-                            for (i in 0 until checkBoxList.size) {
-                                if (!checkBoxList[i].isChecked) {
-                                    allCheckBoxesChecked = false
-                                } else {
-                                    checkBoxValues.add(checkBoxList[i].text.toString())
-                                }
+                        for (i in 0 until checkBoxList.size) {
+                            if (!checkBoxList[i].isChecked) {
+                                allCheckBoxesChecked = false
+                                break
+                            } else {
+                                checkBoxValues.add(checkBoxList[i].text.toString())
                             }
-
-                            if (allEditTextsFilled && allCheckBoxesChecked) {
-                                for (i in 0 until editTextValues.size) {
-                                    val variableNamePric = "pricmo7arek${i + 1}"
-                                    val variableValuePric = editTextValues[i]
-                                    // Do something with the variable name and value, such as storing them in a map.
-                                    contentMessage2[variableNamePric] = variableValuePric
-                                }
-
-                                for (i in 0 until checkBoxList.size) {
-                                    val variableName = "chmo7arek${i + 1}"
-//                                val variableValue = checkBoxList[i].isChecked.toString()
-                                    val variableValue = checkBoxList[i]
-                                    // Do something with the variable name and value, such as storing them in a map.
-                                    contentMessage2[variableName] = variableValue
-                                }
-
+                        }
+                        if (allEditTextsFilled && allCheckBoxesChecked) {
+                            for (i in 0 until editTextValues.size) {
+                               val variableNamepric = "pricmo7arek${i + 1}"
+                               val variableValuepric = editTextValues[i]
+                                contentMessage2[variableNamepric] = variableValuepric
                                 chatChannelsCollectionRef.document("0NA6NYGueVxXMZbTvf37")
                                     .collection("messages")
                                     .document("hd3XmBTcIwS5yLotIuic")
                                     .update(contentMessage2)
                             }
-                            val aa = "ddd"
-                            val map = HashMap<String, String>()
-                            map["key"] = aa
-                            chatChannelsCollectionRef.document("0NA6NYGueVxXMZbTvf37")
-                                .collection("messages")
-                                .document("hd3XmBTcIwS5yLotIuic")
-                                .update(map as Map<String, Any>)
-                        }
 
+                            for (i in 0 until checkBoxList.size) {
+                                val variableName = "chmo7arek${i + 1}"
+                                val variableValue = checkBoxValues[i]
+                                contentMessage2[variableName] = variableValue
+                                chatChannelsCollectionRef.document("0NA6NYGueVxXMZbTvf37")
+                                    .collection("messages")
+                                    .document("hd3XmBTcIwS5yLotIuic")
+                                    .update(contentMessage2)
+                            }
+                        }
+                        }
                     }
                 }
             }
