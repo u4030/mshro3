@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:orientation="vertical"
+    tools:context=".ui.mo7arek.Mo7arekFragment">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/savemo7arek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Button" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek1"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:inputType="phone"
+            android:selectAllOnFocus="true" />
+
+        <CheckBox
+            android:id="@+id/chmo7arek1"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="كشنيت متحرك"
+            tools:ignore="RtlHardcoded" />
+
+        <EditText
+            android:id="@+id/pricmo7arek2"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek2"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="كشنيت ثابت" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek3"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek3"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="ذرعان بساتن" />
+
+        <EditText
+            android:id="@+id/pricmo7arek4"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek4"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="طقم رنق" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek5"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek5"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="طرمبة زيت" />
+
+        <EditText
+            android:id="@+id/pricmo7arek6"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek6"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="بساتن" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek7"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek7"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="كسكيت غطاء صباب" />
+
+        <EditText
+            android:id="@+id/pricmo7arek8"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek8"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="كسكيت راس" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek9"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek9"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="خراطة قمصان" />
+
+        <EditText
+            android:id="@+id/pricmo7arek10"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek10"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="خراطة راس" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek11"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek11"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="بلف معاير" />
+
+        <EditText
+            android:id="@+id/pricmo7arek12"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek12"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="تبديل راس" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek13"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek13"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="تكايات" />
+
+        <EditText
+            android:id="@+id/pricmo7arek14"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek14"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="قشاط\جنزير صدر" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek15"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek15"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="جلود صباب" />
+
+        <EditText
+            android:id="@+id/pricmo7arek16"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek16"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="خراطة كركنك" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek17"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek17"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="تبديل غطاء صباب" />
+
+        <EditText
+            android:id="@+id/pricmo7arek18"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek18"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="بلفات" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek19"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek19"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="سيلكون" />
+
+        <EditText
+            android:id="@+id/pricmo7arek20"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek20"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="زيت محرك" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/pricmo7arek21"
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:hint="السعر"
+            android:selectAllOnFocus="true"
+            android:inputType="phone"
+            />
+
+        <CheckBox
+            android:id="@+id/chmo7arek21"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center|left"
+            android:text="فلتر زيت" />
+
+
+
+<!--                <EditText-->
+<!--                    android:id="@+id/pricmo7arek22"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="السعر"-->
+
+<!--                    />-->
+        <!--        <CheckBox-->
+        <!--            android:id="@+id/chmo7arek22"-->
+        <!--            android:layout_width="165dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:gravity="center|left"-->
+        <!--            android:text="ملف طارة ستيرنج" />-->
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
