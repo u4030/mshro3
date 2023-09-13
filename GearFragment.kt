@@ -107,6 +107,7 @@ class GearFragment : Fragment() {
                                 if (editTextList[i].text.isNotEmpty()) {
                                     val variableNamepric = "pricgear${i + 1}"
                                     contentMessage2[variableNamepric] = editTextList[i].text.toString()
+                                    contentMessage2["totalgear"] = viewModeleGear.totalAmount
                                     chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
                                         .collection("messages")
                                         .document(viewModeleEstqbal.myData2)
