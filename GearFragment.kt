@@ -3,8 +3,10 @@ package com.example.markizalhadidi.ui.gear
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +43,6 @@ class GearFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-
         _binding = FragmentGearBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -71,74 +72,78 @@ class GearFragment : Fragment() {
             checkBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked && editText.text.isEmpty()) {
                     checkBox.isChecked = false
-
                     Toast.makeText(activity, "يجب إدخال السعر اولا", Toast.LENGTH_LONG).apply {
                         show()
                     }
-
                 } else {
                     if (!checkBox.isChecked){
                         editText.text = null
-                        val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toInt() }
+                        val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toIntOrNull() ?: 0 }
                         viewModeleGear.totalAmount = totalAmount.toString()
                         toolbar?.title = "مجموع قائمة الجير: " + viewModeleGear.totalAmount
                     }
                     else{
-                        val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toInt() }
+                        val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toIntOrNull() ?: 0 }
                         viewModeleGear.totalAmount = totalAmount.toString()
                         toolbar?.title = "مجموع قائمة الجير: " + viewModeleGear.totalAmount
                     }
+                }
+            }
+            binding.savgear.setOnClickListener {
+                for (i in 0 until editTextList.size) {
+                        if (editTextList[i].text.isNotEmpty() && !checkBoxList[i].isChecked) {
+                            checkBoxList[i].error ="رسالة خطأ"
+                            return@setOnClickListener
+                    }else{
+                            checkBoxList[i].error = null
+                    }
+                }
 
-                    binding.savgear.setOnClickListener {
-                        if (!isNetworkAvailable(requireContext())) {
-                            Toast.makeText(
-                                requireContext(),
-                                "خدمة الانترنت غير متوفرة",
-                                Toast.LENGTH_LONG
-                            ).apply {
-                                setGravity(Gravity.CENTER, 0, 0)
-                                show()
-                            }
-                        } else {
+                if (!isNetworkAvailable(requireContext())) {
+                    Toast.makeText(
+                        requireContext(),
+                        "خدمة الانترنت غير متوفرة",
+                        Toast.LENGTH_LONG
+                    ).apply {
+                        setGravity(Gravity.CENTER, 0, 0)
+                        show()
+                    }
+                } else {
+                    val contentMessage2 = mutableMapOf<String, Any>()
+                    for (i in 0 until editTextList.size) {
+                        if (editTextList[i].text.isNotEmpty()) {
+                            val variableNamepric = "pricgear${i + 1}"
+                            contentMessage2[variableNamepric] = editTextList[i].text.toString()
+                            contentMessage2["totalgear"] = viewModeleGear.totalAmount
+                            chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
+                                .collection("messages")
+                                .document(viewModeleEstqbal.myData2)
+                                .update(contentMessage2)
+                        }
+                        else{
+                            val variableDelNamepric =hashMapOf<String, Any>( "pricgear${i + 1}" to FieldValue.delete())
+                            chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
+                                .collection("messages")
+                                .document(viewModeleEstqbal.myData2)
+                                .update(variableDelNamepric)
+                        }
+                    }
 
-                            val contentMessage2 = mutableMapOf<String, Any>()
-
-                            for (i in 0 until editTextList.size) {
-                                if (editTextList[i].text.isNotEmpty()) {
-                                    val variableNamepric = "pricgear${i + 1}"
-                                    contentMessage2[variableNamepric] = editTextList[i].text.toString()
-                                    contentMessage2["totalgear"] = viewModeleGear.totalAmount
-                                    chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
-                                        .collection("messages")
-                                        .document(viewModeleEstqbal.myData2)
-                                        .update(contentMessage2)
-                                }
-                                else{
-                                    val variableDelNamepric =hashMapOf<String, Any>( "pricgear${i + 1}" to FieldValue.delete())
-                                    chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
-                                        .collection("messages")
-                                        .document(viewModeleEstqbal.myData2)
-                                        .update(variableDelNamepric)
-                                }
-                            }
-
-                            for (i in 0 until checkBoxList.size) {
-                                if (checkBoxList[i].isChecked) {
-                                    val variableName = "chgear${i + 1}"
-                                    contentMessage2[variableName] = checkBoxList[i].text.toString()
-                                    chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
-                                        .collection("messages")
-                                        .document(viewModeleEstqbal.myData2)
-                                        .update(contentMessage2)
-                                }
-                                else{
-                                    val variableDelName =hashMapOf<String, Any>( "chgear${i + 1}" to FieldValue.delete())
-                                    chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
-                                        .collection("messages")
-                                        .document(viewModeleEstqbal.myData2)
-                                        .update(variableDelName)
-                                }
-                            }
+                    for (i in 0 until checkBoxList.size) {
+                        if (checkBoxList[i].isChecked) {
+                            val variableName = "chgear${i + 1}"
+                            contentMessage2[variableName] = checkBoxList[i].text.toString()
+                            chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
+                                .collection("messages")
+                                .document(viewModeleEstqbal.myData2)
+                                .update(contentMessage2)
+                        }
+                        else{
+                            val variableDelName =hashMapOf<String, Any>( "chgear${i + 1}" to FieldValue.delete())
+                            chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
+                                .collection("messages")
+                                .document(viewModeleEstqbal.myData2)
+                                .update(variableDelName)
                         }
                     }
                 }
@@ -148,11 +153,13 @@ class GearFragment : Fragment() {
         for (i in editTextList.indices) {
             editTextList[i].addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    if (s.isNullOrEmpty()) {
+                        checkBoxList[i].isChecked = false
+                    }
+                }
                 override fun afterTextChanged(s: Editable?) {
-                    checkBoxList[i].isChecked = !s.isNullOrEmpty()
+
                 }
             })
         }
