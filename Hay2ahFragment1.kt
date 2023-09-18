@@ -71,16 +71,6 @@ class  Hay2ahFragment1 : Fragment() {
 
         bindingtoolbar = ActivityMainBinding.inflate(layoutInflater)
 
-        val bindingpaying = PayingDailogBinding.inflate(layoutInflater)
-        customDialogFB_paying = Dialog(activity!!)
-        customDialogFB_paying.setContentView(bindingpaying.root)
-        customDialogFB_paying.setCancelable(false)
-        customDialogFB_paying.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        customDialogFB_paying.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
-
         val bindingMZ = DialogMezanBinding.inflate(layoutInflater)
         customDialogMZ = Dialog(activity!!)
         customDialogMZ.setContentView(bindingMZ.root)
@@ -160,8 +150,6 @@ class  Hay2ahFragment1 : Fragment() {
 
         val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
         toolbar?.setTitleTextAppearance(this.context, R.style.boldText)
-
-
 
         binding.ch1.setOnCheckedChangeListener { _, isChecked ->
             if (binding.ch1.isChecked) {
@@ -317,8 +305,6 @@ class  Hay2ahFragment1 : Fragment() {
                     customDialogR2SX.show()
                 }
 
-
-
                 bindingR2.insideleft.setOnCheckedChangeListener { _, isChecked2 ->
                     if (bindingR2.insideleft.isChecked) {
                         binding.ch1.text = "راسية اكس داخلية يسار"
@@ -473,10 +459,6 @@ class  Hay2ahFragment1 : Fragment() {
                             toast_notempty.show()
                         }else{
                             binding.pric1.text=bindingR2.s3erR2sAcx.text.toString()
-//                            hy2ahModel.totalAmount += binding.pric1.text.toString().toInt()
-//                            toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                            hy2ahModel.ch1 = binding.ch1.text.toString().trim()
-//                            hy2ahModel.pric1 = binding.pric1.text.toString().trim()
                             customDialogR2SX.dismiss()
                         }
                     }
@@ -494,55 +476,23 @@ class  Hay2ahFragment1 : Fragment() {
                 bindingR2.insideleft.isChecked = false
                 customDialogR2SX.show()
 
-            } else {
-                if (binding.pric1.text.toString().isNotEmpty()) {
-//                    hy2ahModel.totalAmount -= binding.pric1.text.toString().toInt()
-//                    toolbar?.title =  hy2ahModel.totalAmount.toString()
+            }
+                else{
                     binding.ch1.text = "راسية اكس"
                     binding.pric1.text = ""
-//                    hy2ahModel.ch1 =  ""
-//                    hy2ahModel.pric1 =  ""
-                }else{binding.ch1.text = "راسية اكس"}
+                }
             }
-        }
 
         binding.ch2.setOnCheckedChangeListener { _, isChecked ->
             if (binding.ch2.isChecked) {
                 customDialogBRK.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                bindingBRK.lDBrek.setOnTouchListener { _, event ->
-                    var x = 0f
-                    var y = 0f
-                    when (event.action) {
-                        MotionEvent.ACTION_UP -> {
-                            x = event.x
-                            y = event.y
-                        }
-                        MotionEvent.ACTION_MOVE -> {
-                            customDialogBRK.window?.let {
-                                val params: WindowManager.LayoutParams = it.attributes
-                                params.x = event.rawX.toInt() - x.toInt()
-                                params.y = event.rawY.toInt() - y.toInt()
-                                it.attributes = params
-                            }
-                        }
-
-                        MotionEvent.ACTION_UP -> {
-                            customDialogBRK.window?.let {
-                                val params: WindowManager.LayoutParams = it.attributes
-                                if (params.y < 0) {
-                                    params.y = 0
-                                    it.attributes = params
-                                } else if (params.y > 2000) { // change this value to move up more
-                                    params.y = 2000 // change this value to move up more
-                                    it.attributes = params
-                                }
-                            }
-                        }
-
-                    }
-                    true
-                }
+                val window = customDialogBRK.window
+                window?.setGravity(Gravity.BOTTOM)
+                val lp = window?.attributes
+                lp?.dimAmount = 0.0f
+                lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                window?.attributes = lp
 
                 bindingBRK.dBFront.setOnCheckedChangeListener { _, isChecked1 ->
                     if (bindingBRK.dBFront.isChecked) {
@@ -640,7 +590,6 @@ class  Hay2ahFragment1 : Fragment() {
                         binding.ch2.text = "بريك امامي خلفي و قبقاب خلفي كامل"
                         bindingBRK.s3erYadweeBreak.setText("15")
                     } else {
-
                         if (bindingBRK.dBRear.isChecked && bindingBRK.dBFront.isChecked && bindingBRK.qb8ab.isChecked) {
                             binding.ch2.text = "بريك امامي خلفي و قبقاب خلفي كامل"
                             bindingBRK.s3erYadweeBreak.setText("15")
@@ -795,7 +744,6 @@ class  Hay2ahFragment1 : Fragment() {
                             }
                         }
                     }
-
                     customDialogBRK.show()
                 }
 
@@ -809,10 +757,6 @@ class  Hay2ahFragment1 : Fragment() {
                             toast_notempty.show()
                         } else {
                             binding.pric2.text = bindingBRK.s3erYadweeBreak.text.toString()
-//                            hy2ahModel.totalAmount += binding.pric2.text.toString().toInt()
-//                            toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                            hy2ahModel.ch2 = binding.ch2.text.toString().trim()
-//                            hy2ahModel.pric2 = binding.pric2.text.toString().trim()
                             customDialogBRK.dismiss()
                         }
                     }
@@ -831,59 +775,24 @@ class  Hay2ahFragment1 : Fragment() {
 
                 customDialogBRK.show()
 
-            } else {
-                if (binding.pric2.text.toString().isNotEmpty()) {
-//                    hy2ahModel.totalAmount -= binding.pric2.text.toString().toInt()
-//                    toolbar?.title =  hy2ahModel.totalAmount.toString()
+            }
+                else {
                     binding.ch2.text = "بريك"
                     binding.pric2.text = ""
-//                    hy2ahModel.ch2 =  ""
-//                    hy2ahModel.pric2 =  ""
-                } else {
-                    binding.ch2.text = "بريك"
                 }
             }
-        }
 
         binding.ch3.setOnCheckedChangeListener { _, isChecked ->
             if (binding.ch3.isChecked) {
                 bindingR2.titR2sOut.text = "خارجية"
                 bindingR2.titR2sIn.text = "داخلية"
                 customDialogR2SX.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-                bindingR2.cardR2s2ks.setOnTouchListener { _, event ->
-                    var x = 0f
-                    var y = 0f
-                    when (event.action) {
-                        MotionEvent.ACTION_UP -> {
-                            x = event.x
-                            y = event.y
-                        }
-                        MotionEvent.ACTION_MOVE -> {
-                            customDialogR2SX.window?.let {
-                                val params: WindowManager.LayoutParams = it.attributes
-                                params.x = event.rawX.toInt() - x.toInt()
-                                params.y = event.rawY.toInt() - y.toInt()
-                                it.attributes = params
-                            }
-                        }
-
-                        MotionEvent.ACTION_UP -> {
-                            customDialogR2SX.window?.let {
-                                val params: WindowManager.LayoutParams = it.attributes
-                                if (params.y < 0) {
-                                    params.y = 0
-                                    it.attributes = params
-                                } else if (params.y > 2000) { // change this value to move up more
-                                    params.y = 2000 // change this value to move up more
-                                    it.attributes = params
-                                }
-                            }
-                        }
-
-                    }
-                    true
-                }
+                val window = customDialogR2SX.window
+                window?.setGravity(Gravity.BOTTOM)
+                val lp = window?.attributes
+                lp?.dimAmount = 0.0f
+                lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                window?.attributes = lp
 
                 bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
                     if (bindingR2.outsideright.isChecked) {
@@ -1290,10 +1199,6 @@ class  Hay2ahFragment1 : Fragment() {
                             toast_notempty.show()
                         } else {
                             binding.pric3.text = bindingR2.s3erR2sAcx.text.toString()
-//                            hy2ahModel.totalAmount += binding.pric3.text.toString().toInt()
-//                            toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                            hy2ahModel.ch3 = binding.ch3.text.toString().trim()
-//                            hy2ahModel.pric3 = binding.pric3.text.toString().trim()
                             customDialogR2SX.dismiss()
                         }
                     }
@@ -1312,19 +1217,12 @@ class  Hay2ahFragment1 : Fragment() {
 
                 customDialogR2SX.show()
 
-            } else {
-                if (binding.pric3.text.toString().isNotEmpty()) {
-//                    hy2ahModel.totalAmount -= binding.pric3.text.toString().toInt()
-//                    toolbar?.title =  hy2ahModel.totalAmount.toString()
+            }
+                else {
                     binding.ch3.text = "كوشوكة اكس"
-                    binding.pric3.setText("")
-//                    hy2ahModel.ch3 =  ""
-//                    hy2ahModel.pric3 =  ""
-                } else {
-                    binding.ch3.text = "كوشوكة اكس"
+                    binding.pric3.text = ""
                 }
             }
-        }
 
         binding.apply{
             ch4.setOnCheckedChangeListener { _, isChecked ->
@@ -1382,10 +1280,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 ch4.isChecked = false
                             } else {
                                 pric4.text = bindingFR.s3erYadwee.text.toString()
-//                                hy2ahModel.totalAmount += pric4.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch4 = ch4.text.toString().trim()
-//                                hy2ahModel.pric4 = pric4.text.toString().trim()
                                 customDialogFR.dismiss()
                             }
                         }
@@ -1401,14 +1295,8 @@ class  Hay2ahFragment1 : Fragment() {
 
                 }
                 else {
-                    if (pric4.text.toString().isNotEmpty()){
-//                        hy2ahModel.totalAmount -= pric4.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
-                        pric4.text = ""
-//                        hy2ahModel.ch4 =  ""
-//                        hy2ahModel.pric4 =  ""
-                    }
                     ch4.text = "اكس امامي"
+                    pric4.text = ""
                 }
             }
         }
@@ -1417,39 +1305,12 @@ class  Hay2ahFragment1 : Fragment() {
             ch5.setOnCheckedChangeListener { _, isChecked ->
                 if (ch5.isChecked) {
 
-                    bindingFR.linF.setOnTouchListener { _, event ->
-                        var x = 0f
-                        var y = 0f
-                        when (event.action) {
-                            MotionEvent.ACTION_UP -> {
-                                x = event.x
-                                y = event.y
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                customDialogFR.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    params.x = event.rawX.toInt() - x.toInt()
-                                    params.y = event.rawY.toInt() - y.toInt()
-                                    it.attributes = params
-                                }
-                            }
-
-                            MotionEvent.ACTION_UP -> {
-                                customDialogFR.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    if (params.y < 0) {
-                                        params.y = 0
-                                        it.attributes = params
-                                    } else if (params.y > 2000) { // change this value to move up more
-                                        params.y = 2000 // change this value to move up more
-                                        it.attributes = params
-                                    }
-                                }
-                            }
-
-                        }
-                        true
-                    }
+                    val window = customDialogFR.window
+                    window?.setGravity(Gravity.BOTTOM)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
 
                     bindingFR.frontright.setOnCheckedChangeListener { _, isChecked1 ->
                         if (bindingFR.frontright.isChecked) {
@@ -1504,10 +1365,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 ch5.isChecked = false
                             } else {
                                 pric5.text = bindingFR.s3erYadwee.text.toString()
-//                                hy2ahModel.totalAmount += pric5.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch5 = ch5.text.toString().trim()
-//                                hy2ahModel.pric5 = pric5.text.toString().trim()
                                 customDialogFR.dismiss()
                             }
                         }
@@ -1523,14 +1380,8 @@ class  Hay2ahFragment1 : Fragment() {
 
                 }
                 else {
-                    if (pric5.text.toString().isNotEmpty()){
-//                        hy2ahModel.totalAmount -= pric5.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
-                        pric5.text = ""
-//                        hy2ahModel.ch5 =  ""
-//                        hy2ahModel.pric5 =  ""
-                    }
                     ch5.text = "كوشوكة منفاخ"
+                    pric5.text = ""
                 }
             }
         }
@@ -1544,39 +1395,12 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.titR2sOut.text="امامي"
                     bindingR2.titR2sIn.text="خلفي"
 
-                    bindingR2.cardR2s2ks.setOnTouchListener { _, event ->
-                        var x = 0f
-                        var y = 0f
-                        when (event.action) {
-                            MotionEvent.ACTION_UP -> {
-                                x = event.x
-                                y = event.y
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    params.x = event.rawX.toInt() - x.toInt()
-                                    params.y = event.rawY.toInt() - y.toInt()
-                                    it.attributes = params
-                                }
-                            }
-
-                            MotionEvent.ACTION_UP -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    if (params.y < 0) {
-                                        params.y = 0
-                                        it.attributes = params
-                                    } else if (params.y > 2000) { // change this value to move up more
-                                        params.y = 2000 // change this value to move up more
-                                        it.attributes = params
-                                    }
-                                }
-                            }
-
-                        }
-                        true
-                    }
+                    val window = customDialogR2SX.window
+                    window?.setGravity(Gravity.BOTTOM)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
 
                     bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
                         if (bindingR2.outsideright.isChecked) {
@@ -1982,10 +1806,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 toast_notempty.show()
                             } else {
                                 pric6.text = bindingR2.s3erR2sAcx.text.toString()
-//                                hy2ahModel.totalAmount += pric6.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch6 = ch6.text.toString().trim()
-//                                hy2ahModel.pric6 = pric6.text.toString().trim()
                                 customDialogR2SX.dismiss()
                             }
                         }
@@ -2003,20 +1823,13 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.insideleft.isChecked = false
                     customDialogR2SX.show()
 
-                } else {
-                    if (pric6.text.toString().isNotEmpty()) {
-//                        hy2ahModel.totalAmount -= pric6.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
+                }
+                    else {
                         ch6.text = "كوشوكة عمود شيال"
                         pric6.text = ""
-//                        hy2ahModel.ch6 =  ""
-//                        hy2ahModel.pric6 =  ""
-                    } else {
-                        ch6.text = "كوشوكة عمود شيال"
                     }
                 }
             }
-        }
 
         binding.apply{
             ch7.setOnCheckedChangeListener { _, isChecked ->
@@ -2026,39 +1839,12 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.titR2sIn.text = "داخلية"
                     customDialogR2SX.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                    bindingR2.cardR2s2ks.setOnTouchListener { _, event ->
-                        var x = 0f
-                        var y = 0f
-                        when (event.action) {
-                            MotionEvent.ACTION_UP -> {
-                                x = event.x
-                                y = event.y
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    params.x = event.rawX.toInt() - x.toInt()
-                                    params.y = event.rawY.toInt() - y.toInt()
-                                    it.attributes = params
-                                }
-                            }
-
-                            MotionEvent.ACTION_UP -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    if (params.y < 0) {
-                                        params.y = 0
-                                        it.attributes = params
-                                    } else if (params.y > 2000) { // change this value to move up more
-                                        params.y = 2000 // change this value to move up more
-                                        it.attributes = params
-                                    }
-                                }
-                            }
-
-                        }
-                        true
-                    }
+                    val window = customDialogR2SX.window
+                    window?.setGravity(Gravity.BOTTOM)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
 
                     bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
                         if (bindingR2.outsideright.isChecked) {
@@ -2257,7 +2043,6 @@ class  Hay2ahFragment1 : Fragment() {
                         }
                         customDialogR2SX.show()
                     }
-
                     bindingR2.insideleft.setOnCheckedChangeListener { _, isChecked2 ->
                         if (bindingR2.outsideright.isChecked) {
                             ch7.text = "جوزة خارجية يمين"
@@ -2330,7 +2115,6 @@ class  Hay2ahFragment1 : Fragment() {
                                                                             "3"
                                                                         )
                                                                     }
-
                                                                     if (bindingR2.insideleft.isChecked) {
                                                                         ch7.text =
                                                                             "جوزة داخلية يسار"
@@ -2356,7 +2140,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 }
                             }
                         }
-
                         customDialogR2SX.show()
                     }
 
@@ -2416,7 +2199,6 @@ class  Hay2ahFragment1 : Fragment() {
                                                                         "10"
                                                                     )
                                                                 } else {
-
                                                                     if (bindingR2.outsideright.isChecked) {
                                                                         ch7.text =
                                                                             "جوزة خارجية يمين"
@@ -2469,10 +2251,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 toast_notempty.show()
                             } else {
                                 pric7.text = bindingR2.s3erR2sAcx.text.toString()
-//                                hy2ahModel.totalAmount += pric7.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch7 = ch7.text.toString().trim()
-//                                hy2ahModel.pric7 = pric7.text.toString().trim()
                                 customDialogR2SX.dismiss()
                             }
                         }
@@ -2490,20 +2268,13 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.insideleft.isChecked = false
                     customDialogR2SX.show()
 
-                } else {
-                    if (pric7.text.toString().isNotEmpty()) {
-//                        hy2ahModel.totalAmount -= pric7.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
+                }
+                    else {
                         ch7.text = "جوزة"
                         pric7.text = ""
-//                        hy2ahModel.ch7 =  ""
-//                        hy2ahModel.pric7 =  ""
-                    } else {
-                        ch7.text = "جوزة"
                     }
                 }
             }
-        }
 
         binding.apply{
             ch8.setOnCheckedChangeListener { _, isChecked ->
@@ -2513,39 +2284,12 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.titR2sOut.text="علوية"
                     bindingR2.titR2sIn.text="سفلية"
 
-                    bindingR2.cardR2s2ks.setOnTouchListener { _, event ->
-                        var x = 0f
-                        var y = 0f
-                        when (event.action) {
-                            MotionEvent.ACTION_UP -> {
-                                x = event.x
-                                y = event.y
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    params.x = event.rawX.toInt() - x.toInt()
-                                    params.y = event.rawY.toInt() - y.toInt()
-                                    it.attributes = params
-                                }
-                            }
-
-                            MotionEvent.ACTION_UP -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    if (params.y < 0) {
-                                        params.y = 0
-                                        it.attributes = params
-                                    } else if (params.y > 2000) { // change this value to move up more
-                                        params.y = 2000 // change this value to move up more
-                                        it.attributes = params
-                                    }
-                                }
-                            }
-
-                        }
-                        true
-                    }
+                    val window = customDialogR2SX.window
+                    window?.setGravity(Gravity.BOTTOM)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
 
                     bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
                         if (bindingR2.outsideright.isChecked) {
@@ -2644,7 +2388,6 @@ class  Hay2ahFragment1 : Fragment() {
                         }
                         customDialogR2SX.show()
                     }
-
                     bindingR2.outsideleft.setOnCheckedChangeListener { _, isChecked2 ->
                         if (bindingR2.outsideleft.isChecked) {
                             ch8.text = "بيضة علوية يسار"
@@ -2701,7 +2444,6 @@ class  Hay2ahFragment1 : Fragment() {
                                                                         "10"
                                                                     )
                                                                 } else {
-
                                                                     if (bindingR2.outsideright.isChecked) {
                                                                         ch8.text =
                                                                             "بيضة علوية يمين"
@@ -2743,7 +2485,6 @@ class  Hay2ahFragment1 : Fragment() {
                         }
                         customDialogR2SX.show()
                     }
-
                     bindingR2.insideleft.setOnCheckedChangeListener { _, isChecked2 ->
                         if (bindingR2.outsideright.isChecked) {
                             ch8.text = "بيضة سفلية يمين"
@@ -2800,7 +2541,6 @@ class  Hay2ahFragment1 : Fragment() {
                                                                         "10"
                                                                     )
                                                                 } else {
-
                                                                     if (bindingR2.outsideright.isChecked) {
                                                                         ch8.text =
                                                                             "بيضة علوية يمين"
@@ -2842,7 +2582,6 @@ class  Hay2ahFragment1 : Fragment() {
                         }
                         customDialogR2SX.show()
                     }
-
                     bindingR2.insideright.setOnCheckedChangeListener { _, isChecked2 ->
                         if (bindingR2.outsideright.isChecked) {
                             ch8.text = "بيضة سفلية يمين"
@@ -2899,7 +2638,6 @@ class  Hay2ahFragment1 : Fragment() {
                                                                         "10"
                                                                     )
                                                                 } else {
-
                                                                     if (bindingR2.outsideright.isChecked) {
                                                                         ch8.text =
                                                                             "بيضة علوية يمين"
@@ -2952,10 +2690,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 toast_notempty.show()
                             } else {
                                 pric8.text = bindingR2.s3erR2sAcx.text.toString()
-//                                hy2ahModel.totalAmount += pric8.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch8 = ch8.text.toString().trim()
-//                                hy2ahModel.pric8 = pric8.text.toString().trim()
                                 customDialogR2SX.dismiss()
                             }
                         }
@@ -2972,21 +2706,13 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.insideright.isChecked = false
                     bindingR2.insideleft.isChecked = false
                     customDialogR2SX.show()
-
-                } else {
-                    if (pric8.text.toString().isNotEmpty()) {
-//                        hy2ahModel.totalAmount -= pric8.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
+                }
+                    else {
                         ch8.text = "بيضة"
                         pric8.text = ""
-//                        hy2ahModel.ch8 =  ""
-//                        hy2ahModel.pric8 =  ""
-                    } else {
-                        ch8.text = "بيضة"
                     }
                 }
             }
-        }
 
         binding.apply{
             ch9.setOnCheckedChangeListener { _, isChecked ->
@@ -3052,10 +2778,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 ch9.isChecked = false
                             } else {
                                 pric9.text = bindingFR.s3erYadwee.text.toString()
-//                                hy2ahModel.totalAmount += pric9.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch9 = ch9.text.toString().trim()
-//                                hy2ahModel.pric9 = pric9.text.toString().trim()
                                 customDialogFR.dismiss()
                             }
                         }
@@ -3071,14 +2793,8 @@ class  Hay2ahFragment1 : Fragment() {
 
                 }
                 else {
-                    if (pric9.text.toString().isNotEmpty()){
-//                        hy2ahModel.totalAmount -= pric9.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
-                        pric9.text = ""
-//                        hy2ahModel.ch9 =  ""
-//                        hy2ahModel.pric9 =  ""
-                    }
                     ch9.text = "شمزة اكس"
+                    pric9.text = ""
                 }
             }
         }
@@ -3092,49 +2808,20 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.titR2sOut.text="امامي"
                     bindingR2.titR2sIn.text="خلفي"
 
-                    bindingR2.cardR2s2ks.setOnTouchListener { _, event ->
-                        var x = 0f
-                        var y = 0f
-                        when (event.action) {
-                            MotionEvent.ACTION_UP -> {
-                                x = event.x
-                                y = event.y
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    params.x = event.rawX.toInt() - x.toInt()
-                                    params.y = event.rawY.toInt() - y.toInt()
-                                    it.attributes = params
-                                }
-                            }
-
-                            MotionEvent.ACTION_UP -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    if (params.y < 0) {
-                                        params.y = 0
-                                        it.attributes = params
-                                    } else if (params.y > 2000) { // change this value to move up more
-                                        params.y = 2000 // change this value to move up more
-                                        it.attributes = params
-                                    }
-                                }
-                            }
-
-                        }
-                        true
-                    }
+                    val window = customDialogR2SX.window
+                    window?.setGravity(Gravity.TOP)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
 
                     bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
-
                         if (bindingR2.outsideright.isChecked) {
                             ch10.text = "عمود توازن جوزة امامي يمين"
                         } else {
                             ch10.text = "عمود توازن جوزة"
                             bindingR2.s3erR2sAcx.setText("")
                         }
-
                         if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                             ch10.text = "تغير عمود توازن جوزة كامل"
                             bindingR2.s3erR2sAcx.setText("12")
@@ -3225,7 +2912,6 @@ class  Hay2ahFragment1 : Fragment() {
                         }
                         customDialogR2SX.show()
                     }
-
                     bindingR2.outsideleft.setOnCheckedChangeListener { _, isChecked2 ->
                         if (bindingR2.outsideleft.isChecked) {
                             ch10.text = "عمود توازن جوزة امامي يسار"
@@ -3282,7 +2968,6 @@ class  Hay2ahFragment1 : Fragment() {
                                                                         "3"
                                                                     )
                                                                 } else {
-
                                                                     if (bindingR2.outsideright.isChecked) {
                                                                         ch10.text =
                                                                             "عمود توازن جوزة امامي يمين"
@@ -3324,7 +3009,6 @@ class  Hay2ahFragment1 : Fragment() {
                         }
                         customDialogR2SX.show()
                     }
-
                     bindingR2.insideleft.setOnCheckedChangeListener { _, isChecked2 ->
                         if (bindingR2.outsideright.isChecked) {
                             ch10.text = "عمود توازن جوزة خلفي يمين"
@@ -3422,7 +3106,6 @@ class  Hay2ahFragment1 : Fragment() {
                         }
                         customDialogR2SX.show()
                     }
-
                     bindingR2.insideright.setOnCheckedChangeListener { _, isChecked2 ->
                         if (bindingR2.outsideright.isChecked) {
                             ch10.text = "عمود توازن جوزة خلفي يمين"
@@ -3479,7 +3162,6 @@ class  Hay2ahFragment1 : Fragment() {
                                                                         "3"
                                                                     )
                                                                 } else {
-
                                                                     if (bindingR2.outsideright.isChecked) {
                                                                         ch10.text =
                                                                             "عمود توازن جوزة امامي يمين"
@@ -3532,10 +3214,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 toast_notempty.show()
                             } else {
                                 pric10.text = bindingR2.s3erR2sAcx.text.toString()
-//                                hy2ahModel.totalAmount += pric10.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch10 = ch10.text.toString().trim()
-//                                hy2ahModel.pric10 = pric10.text.toString().trim()
                                 customDialogR2SX.dismiss()
                             }
                         }
@@ -3553,20 +3231,13 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.insideleft.isChecked = false
                     customDialogR2SX.show()
 
-                } else {
-                    if (pric10.text.toString().isNotEmpty()) {
-//                        hy2ahModel.totalAmount -= pric10.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                        ch10.text = "عمود توازن جوزة"
-                        pric10.text = ""
-//                        hy2ahModel.ch10 =  ""
-//                        hy2ahModel.pric10 =  ""
-                    } else {
+                }
+                    else {
                         ch10.text = "عمود توازن جوزة"
+                        pric10.text = ""
                     }
                 }
             }
-        }
 
         binding.apply{
             ch11.setOnCheckedChangeListener { _, isChecked ->
@@ -3577,21 +3248,12 @@ class  Hay2ahFragment1 : Fragment() {
                             toast_notempty.show()
                         } else {
                             pric11.text = bindingF79.s3erYadweeFa7.text.toString()
-//                            hy2ahModel.totalAmount += pric11.text.toString().toInt()
-//                            toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                            hy2ahModel.ch11 = ch11.text.toString().trim()
-//                            hy2ahModel.pric11 = pric11.text.toString().trim()
                             customDialogF79.dismiss()
                         }
                     }
                     customDialogF79.show()
-
                 } else {
-//                    hy2ahModel.totalAmount -= pric11.text.toString().toInt()
-//                    toolbar?.title =  hy2ahModel.totalAmount.toString()
                     pric11.text = ""
-//                    hy2ahModel.ch11 =  ""
-//                    hy2ahModel.pric11 =  ""
                 }
             }
         }
@@ -3603,40 +3265,12 @@ class  Hay2ahFragment1 : Fragment() {
                     customDialogR2SX.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     bindingR2.titR2sOut.text="امامي"
                     bindingR2.titR2sIn.text="خلفي"
-
-                    bindingR2.cardR2s2ks.setOnTouchListener { _, event ->
-                        var x = 0f
-                        var y = 0f
-                        when (event.action) {
-                            MotionEvent.ACTION_UP -> {
-                                x = event.x
-                                y = event.y
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    params.x = event.rawX.toInt() - x.toInt()
-                                    params.y = event.rawY.toInt() - y.toInt()
-                                    it.attributes = params
-                                }
-                            }
-
-                            MotionEvent.ACTION_UP -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    if (params.y < 0) {
-                                        params.y = 0
-                                        it.attributes = params
-                                    } else if (params.y > 2000) { // change this value to move up more
-                                        params.y = 2000 // change this value to move up more
-                                        it.attributes = params
-                                    }
-                                }
-                            }
-
-                        }
-                        true
-                    }
+                    val window = customDialogR2SX.window
+                    window?.setGravity(Gravity.TOP)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
 
                     bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
                         if (bindingR2.outsideright.isChecked) {
@@ -4040,10 +3674,6 @@ class  Hay2ahFragment1 : Fragment() {
                                 toast_notempty.show()
                             } else {
                                 pric12.text = bindingR2.s3erR2sAcx.text.toString()
-//                                hy2ahModel.totalAmount += pric12.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch12 = ch12.text.toString().trim()
-//                                hy2ahModel.pric12 = pric12.text.toString().trim()
                                 customDialogR2SX.dismiss()
                             }
                         }
@@ -4061,59 +3691,25 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.insideleft.isChecked = false
                     customDialogR2SX.show()
 
-                } else {
-                    if (pric12.text.toString().isNotEmpty()) {
-//                        hy2ahModel.totalAmount -= pric12.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
+                }
+                    else {
                         ch12.text = "هب"
                         pric12.text = ""
-//                        hy2ahModel.ch12 =  ""
-//                        hy2ahModel.pric12 =  ""
-                    } else {
-                        ch12.text = "هب"
                     }
                 }
             }
-        }
 
         binding.apply{
             ch13.setOnCheckedChangeListener { _, isChecked ->
                 if (ch13.isChecked) {
                     customDialogBL6.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//                bindingBL6.card_bala6at.setOnTouchListener { _, event ->
-//                    var x = 0f
-//                    var y = 0f
-//                    when (event.action) {
-//                        MotionEvent.ACTION_UP -> {
-//                            x = event.x
-//                            y = event.y
-//                        }
-//                        MotionEvent.ACTION_MOVE -> {
-//                            bindingBL6.window?.let {
-//                                val params: WindowManager.LayoutParams = it.attributes
-//                                params.x = event.rawX.toInt() - x.toInt()
-//                                params.y = event.rawY.toInt() - y.toInt()
-//                                it.attributes = params
-//                            }
-//                        }
-//
-//                        MotionEvent.ACTION_UP -> {
-//                            bindingBL6.window?.let {
-//                                val params: WindowManager.LayoutParams = it.attributes
-//                                if (params.y < 0) {
-//                                    params.y = 0
-//                                    it.attributes = params
-//                                } else if (params.y > 2000) { // change this value to move up more
-//                                    params.y = 2000 // change this value to move up more
-//                                    it.attributes = params
-//                                }
-//                            }
-//                        }
-//
-//                    }
-//                    true
-//                }
 
+                    val window = customDialogBL6.window
+                    window?.setGravity(Gravity.TOP)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
                     bindingBL6.gyarBala6at2mamy.setOnCheckedChangeListener { _, isChecked1 ->
                         if (bindingBL6.gyarBala6at2mamy.isChecked) {
                             bindingBL6.fakBala6at2mamy.isEnabled=false
@@ -4214,7 +3810,6 @@ class  Hay2ahFragment1 : Fragment() {
                             ch13.text = "فك بلاطات امامي و خلفي"
                             bindingBL6.s3erBala6at.setText("20")
                         } else {
-
                             if (bindingBL6.fakBala6at5alfy.isChecked && bindingBL6.gyarBala6at2mamy.isChecked) {
                                 ch13.text = "فك بلاطات خلفي و غيار امامي"
                                 bindingBL6.s3erBala6at.setText("20")
@@ -4244,11 +3839,6 @@ class  Hay2ahFragment1 : Fragment() {
                             } else {
                                 pric13.text =
                                     bindingBL6.s3erBala6at.text.toString()
-//                                hy2ahModel.totalAmount += pric13.text.toString()
-//                                    .toInt()
-//                                toolbar?.title = hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch13 = ch13.text.toString().trim()
-//                                hy2ahModel.pric13 = pric13.text.toString().trim()
                                 bindingBL6.gyarBala6at2mamy.isEnabled=true
                                 bindingBL6.gyarBala6at5alfy.isEnabled=true
                                 bindingBL6.fakBala6at5alfy.isEnabled=true
@@ -4277,47 +3867,29 @@ class  Hay2ahFragment1 : Fragment() {
 
                     customDialogBL6.show()
 
-                } else {
-                    if (pric13.text.toString().isNotEmpty()) {
-//                        hy2ahModel.totalAmount -= pric13.text.toString().toInt()
-//                        toolbar?.title = hy2ahModel.totalAmount.toString()
+                }
+                    else {
                         ch13.text = "بلاطات"
                         pric13.text = ""
-//                        hy2ahModel.ch13 = ""
-//                        hy2ahModel.pric13 = ""
-                    } else {
-                        ch13.text = "بلاطات"
                     }
                 }
             }
-        }
 
         binding.apply{
             ch14.setOnCheckedChangeListener { _, isChecked ->
                 if (ch14.isChecked) {
-
                     bindingF79.s3erYadweeFa7.setText("40")
-
                     bindingF79.btnSvDigFa7.setOnClickListener {
                         if (bindingF79.s3erYadweeFa7.text.toString().isEmpty()) {
                             toast_notempty.show()
                         } else {
                             pric14.text = bindingF79.s3erYadweeFa7.text.toString()
-//                            hy2ahModel.totalAmount += pric14.text.toString().toInt()
-//                            toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                            hy2ahModel.ch14 = ch14.text.toString().trim()
-//                            hy2ahModel.pric14 = pric14.text.toString().trim()
                             customDialogF79.dismiss()
                         }
                     }
                     customDialogF79.show()
-
                 } else {
-//                    hy2ahModel.totalAmount -= pric14.text.toString().toInt()
-//                    toolbar?.title =  hy2ahModel.totalAmount.toString()
                     pric14.text = ""
-//                    hy2ahModel.ch14 =  ""
-//                    hy2ahModel.pric14 =  ""
                 }
             }
         }
@@ -4331,21 +3903,12 @@ class  Hay2ahFragment1 : Fragment() {
                             toast_notempty.show()
                         } else {
                             pric15.text = bindingF79.s3erYadweeFa7.text.toString()
-//                           hy2ahModel.totalAmount += pric15.text.toString().toInt()
-//                           toolbar?.title = hy2ahModel.totalAmount.toString()
-//                           hy2ahModel.ch15 = ch15.text.toString().trim()
-//                           hy2ahModel.pric15 = pric15.text.toString().trim()
                             customDialogF79.dismiss()
                         }
                     }
                     customDialogF79.show()
-
                 } else {
-//                   hy2ahModel.totalAmount -= pric15.text.toString().toInt()
-//                   toolbar?.title = hy2ahModel.totalAmount.toString()
                     pric15.text = ""
-//                   hy2ahModel.ch15 = ""
-//                   hy2ahModel.pric15 = ""
                 }
             }
         }
@@ -4353,29 +3916,19 @@ class  Hay2ahFragment1 : Fragment() {
         binding.apply{
             ch16.setOnCheckedChangeListener { _, isChecked ->
                 if (ch16.isChecked) {
-
                     bindingF79.s3erYadweeFa7.setText("3")
-
                     bindingF79.btnSvDigFa7.setOnClickListener {
                         if (bindingF79.s3erYadweeFa7.text.toString().isEmpty()) {
                             toast_notempty.show()
                         } else {
                             pric16.text = bindingF79.s3erYadweeFa7.text.toString()
-//                            hy2ahModel.totalAmount += pric16.text.toString().toInt()
-//                            toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                            hy2ahModel.ch16 = ch16.text.toString().trim()
-//                            hy2ahModel.pric16 = pric16.text.toString().trim()
                             customDialogF79.dismiss()
                         }
                     }
                     customDialogF79.show()
 
                 } else {
-//                    hy2ahModel.totalAmount -= pric16.text.toString().toInt()
-//                    toolbar?.title =  hy2ahModel.totalAmount.toString()
                     pric16.text = ""
-//                    hy2ahModel.ch16 =  ""
-//                    hy2ahModel.pric16 =  ""
                 }
             }
         }
@@ -4387,40 +3940,12 @@ class  Hay2ahFragment1 : Fragment() {
                     customDialogR2SX.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     bindingR2.titR2sOut.text="امامي"
                     bindingR2.titR2sIn.text="خلفي"
-
-                    bindingR2.cardR2s2ks.setOnTouchListener { _, event ->
-                        var x = 0f
-                        var y = 0f
-                        when (event.action) {
-                            MotionEvent.ACTION_UP -> {
-                                x = event.x
-                                y = event.y
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    params.x = event.rawX.toInt() - x.toInt()
-                                    params.y = event.rawY.toInt() - y.toInt()
-                                    it.attributes = params
-                                }
-                            }
-
-                            MotionEvent.ACTION_UP -> {
-                                customDialogR2SX.window?.let {
-                                    val params: WindowManager.LayoutParams = it.attributes
-                                    if (params.y < 0) {
-                                        params.y = 0
-                                        it.attributes = params
-                                    } else if (params.y > 2000) { // change this value to move up more
-                                        params.y = 2000 // change this value to move up more
-                                        it.attributes = params
-                                    }
-                                }
-                            }
-
-                        }
-                        true
-                    }
+                    val window = customDialogR2SX.window
+                    window?.setGravity(Gravity.TOP)
+                    val lp = window?.attributes
+                    lp?.dimAmount = 0.0f
+                    lp?.flags = lp?.flags?.or(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                    window?.attributes = lp
 
                     bindingR2.outsideright.setOnCheckedChangeListener { _, isChecked1 ->
                         if (bindingR2.outsideright.isChecked) {
@@ -4429,7 +3954,6 @@ class  Hay2ahFragment1 : Fragment() {
                             ch17.text = "حساس (ABS)"
                             bindingR2.s3erR2sAcx.setText("")
                         }
-
                         if (bindingR2.outsideright.isChecked && bindingR2.outsideleft.isChecked && bindingR2.insideright.isChecked && bindingR2.insideleft.isChecked) {
                             ch17.text = "تغير جميع حساسات (ABS) "
                             bindingR2.s3erR2sAcx.setText("12")
@@ -4824,11 +4348,7 @@ class  Hay2ahFragment1 : Fragment() {
                             if (bindingR2.s3erR2sAcx.text.toString().trim().isEmpty()) {
                                 toast_notempty.show()
                             } else {
-//                                pric17.text = bindingR2.s3erR2sAcx.text.toString()
-//                                hy2ahModel.totalAmount += pric17.text.toString().toInt()
-//                                toolbar?.title =  hy2ahModel.totalAmount.toString()
-//                                hy2ahModel.ch17 = ch17.text.toString().trim()
-//                                hy2ahModel.pric17 = pric17.text.toString().trim()
+                                pric17.text = bindingR2.s3erR2sAcx.text.toString()
                                 customDialogR2SX.dismiss()
                             }
                         }
@@ -4846,20 +4366,13 @@ class  Hay2ahFragment1 : Fragment() {
                     bindingR2.insideleft.isChecked = false
                     customDialogR2SX.show()
 
-                } else {
-                    if (pric17.text.toString().isNotEmpty()) {
-//                        hy2ahModel.totalAmount -= pric17.text.toString().toInt()
-//                        toolbar?.title =  hy2ahModel.totalAmount.toString()
+                }
+                    else {
                         ch17.text = "حساس (ABS)"
                         pric17.text = ""
-//                        hy2ahModel.ch17 =  ""
-//                        hy2ahModel.pric17 =  ""
-                    } else {
-                        ch17.text = "حساس (ABS)"
                     }
                 }
             }
-        }
 
         val editTextList = mutableListOf<TextView>()
         val checkBoxList = mutableListOf<CheckBox>()
@@ -4872,18 +4385,6 @@ class  Hay2ahFragment1 : Fragment() {
             val checkBox =
                 binding::class.java.getDeclaredField(checkBoxName).get(binding) as CheckBox
             checkBoxList.add(checkBox)
-            checkBox.setOnCheckedChangeListener { _, isChecked ->
-                if (!checkBox.isChecked){
-                    editText.text = null
-                    val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toInt() }
-                    hy2ahModel.totalAmount = totalAmount.toString()
-                    toolbar?.title = "مجموع قائمة الهيئة 1: " + hy2ahModel.totalAmount
-                }
-                else{
-                    val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toInt() }
-                    hy2ahModel.totalAmount = totalAmount.toString()
-                    toolbar?.title = "مجموع قائمة الهيئة 1: " + hy2ahModel.totalAmount
-                }
 
                 binding.btnsavhy2ah1.setOnClickListener {
                     if (!isNetworkAvailable(requireContext())) {
@@ -4896,13 +4397,12 @@ class  Hay2ahFragment1 : Fragment() {
                             show()
                         }
                     } else {
-
                         val contentMessage2 = mutableMapOf<String, Any>()
                         for (i in 0 until editTextList.size) {
                             if (editTextList[i].text.isNotEmpty()) {
                                 val variableNamepric = "pric${i + 1}"
                                 contentMessage2[variableNamepric] = editTextList[i].text.toString()
-                                contentMessage2["totalhy2ah1"] = viewModeleEstqbal.totalAmount
+                                contentMessage2["totalhy2ah1"] = hy2ahModel.totalAmount
                                 chatChannelsCollectionRef.document(viewModeleEstqbal.myData1)
                                     .collection("messages")
                                     .document(viewModeleEstqbal.myData2)
@@ -4937,6 +4437,24 @@ class  Hay2ahFragment1 : Fragment() {
                     }
                 }
             }
+
+        for (i in editTextList.indices) {
+            editTextList[i].addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+                override fun afterTextChanged(s: Editable?) {
+                if (s!!.isNotEmpty()){
+                    val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toInt() }
+                    hy2ahModel.totalAmount = totalAmount.toString()
+                    toolbar?.title = "مجموع قائمة الهيئة1 : " + hy2ahModel.totalAmount
+                }else{
+                    val totalAmount = editTextList.filter { it.text.isNotEmpty() }.sumOf { it.text.toString().toInt() }
+                    hy2ahModel.totalAmount = totalAmount.toString()
+                    toolbar?.title = "مجموع قائمة الهيئة1 : " + hy2ahModel.totalAmount
+                }
+                }
+            })
         }
 
         return root
